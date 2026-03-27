@@ -22,6 +22,8 @@ def start_game():
 
         render_background(screen)
 
+        ps_trans_dict = renderer.scale_by_trans_dict({}, 0.25)
+        renderer.render(screen,"images/plants/peashooter.png", 50,50, ps_trans_dict)
 
 
         # flip() the display to put your work on screen
@@ -36,4 +38,4 @@ def start_game():
 
 
 def render_background(screen):
-    renderer.render(screen,"images/backgrounds/frontyard.png")
+    renderer.render(screen,"images/backgrounds/frontyard.png", 100, 100)
