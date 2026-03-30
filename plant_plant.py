@@ -6,7 +6,7 @@ def plant_plant(screen, position: dict[str,int], type: str):
     pixel_position = get_spawn_pos(position, {"x":65,"y":80}, {"x":82,"y":100}, {"x":9,"y":5})
     
     ps_trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
-    renderer.render(screen,"images/plants/peashooter.png", pixel_position["x"],pixel_position["y"], ps_trans_dict)
+    renderer.render(screen,"images/plants/peashooter.png", pixel_position, ps_trans_dict)
 
 
 def get_spawn_pos(looking_for_pos: dict[str,int], start_pos: dict[str,int], offsets: dict[str,int], total_positions: dict[str,int]) -> dict[str,int]:

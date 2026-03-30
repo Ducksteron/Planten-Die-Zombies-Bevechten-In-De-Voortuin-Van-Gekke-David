@@ -1,6 +1,9 @@
 import pygame
 
-def render(screen, path:str, position_x:int = 0, position_y:int = 0, transform_dict: dict = {}):
+def render(screen, path:str, position: dict[str,int], transform_dict: dict = {}):
+    position_x:int = position["x"]
+    position_y:int = position["y"]
+    
     image = pygame.image.load(path)
 
     if "scale" in transform_dict:

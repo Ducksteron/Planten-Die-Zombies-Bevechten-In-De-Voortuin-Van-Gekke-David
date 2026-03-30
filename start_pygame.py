@@ -48,4 +48,4 @@ def start_game():
 
 
 def render_background(screen):
-    renderer.render(screen,"images/backgrounds/cropped frontyard.png", 0, 0)
+    renderer.render(screen,"images/backgrounds/cropped frontyard.png", {"x":0,"y":0})
