@@ -1,18 +1,10 @@
 import pygame
 
-def render(screen, path:str, position: dict[str,int], transform_dict: dict = {}):
+def render(screen, path:str, position: dict[str,int], transform_dict: dict = {}) -> pygame.Surface:
     position_x:int = position["x"]
     position_y:int = position["y"]
     
     image = pygame.image.load(path)
-
-    if "scale" in transform_dict:
-        scale_dict: dict = transform_dict["scale"]
-        image = pygame.transform.scale(image, (scale_dict["width"], scale_dict["height"]))
-
-    if "scale by" in transform_dict:
-        scale_by_dict: dict = transform_dict["scale by"]
-        image = pygame.transform.scale_by(image, scale_by_dict["amount"])
     
 
     if "flip" in transform_dict:
@@ -23,6 +15,14 @@ def render(screen, path:str, position: dict[str,int], transform_dict: dict = {})
         rotation_dict: dict = transform_dict["rotation"]
         image = pygame.transform.rotate(image,rotation_dict["angle"])
 
+    if "scale" in transform_dict:
+        scale_dict: dict = transform_dict["scale"]
+        image = pygame.transform.scale(image, (scale_dict["width"], scale_dict["height"]))
+
+    if "scale by" in transform_dict:
+        scale_by_dict: dict = transform_dict["scale by"]
+        image = pygame.transform.scale_by(image, scale_by_dict["amount"])
+
 
     blit_pos = (0,0)
 
@@ -32,6 +32,8 @@ def render(screen, path:str, position: dict[str,int], transform_dict: dict = {})
         blit_pos = (position_x, position_y)
 
     screen.blit(image, blit_pos)
+
+    return image
 
 
 
@@ -50,7 +52,10 @@ def flip_trans_dict(transform_dict: dict[str,dict], flip_x: bool = False , flip_
     return transform_dict
 
 def rotate_trans_dict(transform_dict: dict[str,dict], angle:float = 0.0) -> dict:
-    transform_dict["rotation"] = {"angle": angle}
+    if "rotation" in transform_dict:
+        transform_dict["rotation"] = {"angle": transform_dict["rotation"]["angle"] + angle}
+    else:
+        transform_dict["rotation"] = {"angle": angle}
     return transform_dict
 
 
