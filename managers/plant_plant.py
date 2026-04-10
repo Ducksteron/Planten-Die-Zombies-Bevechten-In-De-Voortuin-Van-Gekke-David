@@ -8,7 +8,7 @@ def plant_plant(position: dict[str,int], type: str) -> plant_class.Plant:
     new_plant = plant_class.Plant("images/plants/peashooter.png", pixel_position)
     ps_trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
     new_plant.trans_dict = ps_trans_dict
-    
+
     return new_plant
 
 

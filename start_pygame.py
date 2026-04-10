@@ -32,17 +32,19 @@ def start_game():
         render_background(screen)
 
         if is_first_frame:
-            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
-            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+            # all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+            # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+            # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+            # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            all_objects.append(planter.plant_plant({"x":0,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":8,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":0,"y":4}, "test"))
-            all_objects.append(planter.plant_plant({"x":8,"y":4}, "test"))
+            all_objects.append(planter.plant_plant({"x":0,"y":0}, "null"))
+            all_objects.append(planter.plant_plant({"x":8,"y":0}, "null"))
+            all_objects.append(planter.plant_plant({"x":0,"y":4}, "null"))
+            all_objects.append(planter.plant_plant({"x":8,"y":4}, "null"))
             
 
+
+        all_objects = object_manager.remove_null_instances(all_objects)
         #call process for all objects
         object_manager.process_objects(all_objects, dt)
         #call draw for all objects
