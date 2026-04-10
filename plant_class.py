@@ -1,7 +1,16 @@
 import render_image_wrapper as renderer
 import pygame
 
-class RenderableObject():
+
+class GameObject():
+    def process(self: GameObject, delta_time: float) -> None:
+        pass
+
+
+
+
+
+class RenderableObject(GameObject):
     def __init__(self: RenderableObject,image_path: str, pos:dict[str,int]) -> None:
         self.image_path = image_path
         self.pos = pos
@@ -12,8 +21,8 @@ class RenderableObject():
             self.trans_dict = given_trans_dict
         image = renderer.render(screen,self.image_path,self.pos,self.trans_dict)
     
-    def process(self: RenderableObject, screen, delta_time: float) -> None:
-        self.draw(screen)
+    def process(self: RenderableObject, delta_time: float) -> None:
+        super().process(delta_time)
 
         
 
@@ -23,9 +32,8 @@ class Plant(RenderableObject):
         super().__init__(image_path, pos)
         # self.hitbox = (self.x + 17, self.y + 11, 29, 52)
     
-    def process(self: Plant, screen, delta_time: float) -> None:
-        super().process(screen, delta_time)
-        self.draw(screen)
+    def process(self: Plant, delta_time: float) -> None:
+        super().process(delta_time)
     
     def shoot(self: Plant, projectile: Projectile, screen, delta_time: float) -> Projectile:
         return projectile
@@ -41,7 +49,6 @@ class Projectile(RenderableObject):
     def move(self: Projectile, delta_time: float) -> None:
         self.pos = {"x": self.pos["x"] + 10 * delta_time, "y": self.pos["y"]}
     
-    def process(self: Projectile, screen, delta_time: float) -> None:
-        super().process(screen, delta_time)
+    def process(self: Projectile, delta_time: float) -> None:
+        super().process(delta_time)
         self.move(delta_time)
-        self.draw(screen)
