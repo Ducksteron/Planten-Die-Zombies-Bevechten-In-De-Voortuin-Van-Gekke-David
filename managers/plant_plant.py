@@ -3,6 +3,12 @@ from classes import plant_class
 
 
 def plant_plant(position: dict[str,int], type: str) -> plant_class.Plant:
+    if position["x"] > 8 or position["x"] < 0 or position["y"] > 4 or position["y"] < 0:
+        print("plant_plant.py: given position is not valid! return null plant.")
+        new_plant = plant_class.Plant("images/plants/peashooter.png", {"x": 67, "y":67})
+        new_plant.is_null = True
+        return new_plant
+
     pixel_position = get_spawn_pos(position, {"x":65,"y":80}, {"x":82,"y":100}, {"x":9,"y":5})
     
     new_plant = plant_class.Plant("images/plants/peashooter.png", pixel_position)

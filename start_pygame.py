@@ -37,10 +37,10 @@ def start_game():
             # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
             # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            all_objects.append(planter.plant_plant({"x":0,"y":0}, "null"))
-            all_objects.append(planter.plant_plant({"x":8,"y":0}, "null"))
-            all_objects.append(planter.plant_plant({"x":0,"y":4}, "null"))
-            all_objects.append(planter.plant_plant({"x":8,"y":4}, "null"))
+            all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
+            all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
             
 
 
@@ -60,7 +60,6 @@ def start_game():
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
         dt = clock.tick(120) / 1000
-        print(dt)
 
     pygame.quit()
 
