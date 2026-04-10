@@ -1,11 +1,15 @@
 from managers import render_image_wrapper as renderer
+from classes import plant_class
 
 
-def plant_plant(screen, position: dict[str,int], type: str):
+def plant_plant(position: dict[str,int], type: str) -> plant_class.Plant:
     pixel_position = get_spawn_pos(position, {"x":65,"y":80}, {"x":82,"y":100}, {"x":9,"y":5})
     
+    new_plant = plant_class.Plant("images/plants/peashooter.png", pixel_position)
     ps_trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
-    renderer.render(screen,"images/plants/peashooter.png", pixel_position, ps_trans_dict)
+    new_plant.trans_dict = ps_trans_dict
+    
+    return new_plant
 
 
 def get_spawn_pos(looking_for_pos: dict[str,int], start_pos: dict[str,int], offsets: dict[str,int], total_positions: dict[str,int]) -> dict[str,int]:
@@ -13,17 +17,3 @@ def get_spawn_pos(looking_for_pos: dict[str,int], start_pos: dict[str,int], offs
     return_y_pos:int = start_pos["y"] + (offsets["y"] * looking_for_pos["y"])
     return {"x": return_x_pos, "y": return_y_pos}
 
-
-
-
-
-# def get_all_spawn_pos(start_pos: dict[str,int], offsets: dict[str,int], pos_amt: dict[str,int]) -> dict[int, dict[int, dict[str,int]]]:
-#     all_positions: dict[int, dict[int, dict[str,int]]] = {}
-#     for x_pos_index in range(pos_amt["x"]):
-#         all_positions[x_pos_index] = {0 :{"x": 0, "y":0}}
-    
-#     for y_pos_index in range(pos_amt["y"]):
-#         pass
-
-
-#     return {0:{0:{"x":0,"y":0}}}

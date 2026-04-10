@@ -31,26 +31,17 @@ def start_game():
 
         render_background(screen)
 
-        # ps_trans_dict = renderer.scale_by_trans_dict({}, 0.25)
-        # renderer.render(screen,"images/plants/peashooter.png", 50,50, ps_trans_dict)
-
-        # planter.plant_plant(screen,{"x":0,"y":0}, "hello")
-        # planter.plant_plant(screen,{"x":8,"y":4}, "hello")
-        # planter.plant_plant(screen,{"x":8,"y":0}, "hello")
-        # planter.plant_plant(screen,{"x":0,"y":4}, "hello")
-
-        # planter.plant_plant(screen,{"x":1,"y":1}, "hello")
-        # planter.plant_plant(screen,{"x":3,"y":2}, "hello")
-
-
         if is_first_frame:
-            new_plant = plant_class.Plant("images/misc/german_horse.png", {"x":200,"y": 200})
-            new_plant.trans_dict = horse_trans_dict
-            all_objects.append(new_plant)
+            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-        horse_trans_dict = renderer.rotate_trans_dict(horse_trans_dict, 20 *dt)
-        # plant_class.Plant.draw(new_plant, screen, True, horse_trans_dict)
-
+            all_objects.append(planter.plant_plant({"x":0,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":8,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":0,"y":4}, "test"))
+            all_objects.append(planter.plant_plant({"x":8,"y":4}, "test"))
+            
 
         #call process for all objects
         object_manager.process_objects(all_objects, dt)
