@@ -1,8 +1,9 @@
 import pygame
-import render_image_wrapper as renderer
-import plant_plant as planter
-import plant_class
-import object_manager
+from managers import render_image_wrapper as renderer
+from managers import plant_plant as planter
+from managers import object_manager
+from classes import game_object_class
+from classes import plant_class
 
 
 def start_game():
@@ -12,10 +13,9 @@ def start_game():
     clock = pygame.time.Clock()
     running = True
     dt = 0
-    all_objects: list[plant_class.GameObject] = []
+    all_objects: list[game_object_class.GameObject] = []
     is_first_frame: bool = True
 
-    horse_coords: dict[str,int] = {"x":50,"y":50}
     horse_trans_dict = renderer.scale_by_trans_dict({},0.1)
 
 

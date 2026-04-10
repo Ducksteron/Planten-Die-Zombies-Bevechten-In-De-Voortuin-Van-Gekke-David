@@ -1,5 +1,4 @@
-import render_image_wrapper as renderer
-import pygame
+from managers import render_image_wrapper as renderer
 
 
 def plant_plant(screen, position: dict[str,int], type: str):
