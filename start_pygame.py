@@ -32,25 +32,27 @@ def start_game():
         render_background(screen)
 
         if is_first_frame:
-            # all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
-            # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-            # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-            # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
-            all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
+            # all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
+            # all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
+            # all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
+            # all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
             
 
 
+        object_manager.handle_shooting(all_objects, dt)
+
+        #removes all null instances from all objects
         all_objects = object_manager.remove_null_instances(all_objects)
         #call process for all objects
         object_manager.process_objects(all_objects, dt)
         #call draw for all objects
         object_manager.draw_objects(all_objects, screen)
-
-        is_first_frame = False
+        
 
 
         # flip() the display to put your work on screen
@@ -60,6 +62,8 @@ def start_game():
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
         dt = clock.tick(120) / 1000
+
+        is_first_frame = False
 
     pygame.quit()
 
