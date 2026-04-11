@@ -1,6 +1,7 @@
 import pygame
 from managers import render_image_wrapper as renderer
 from managers import plant_plant as planter
+from managers import zombie_spawner
 from managers import object_manager
 from classes import game_object_class
 from classes import plant_class
@@ -39,14 +40,13 @@ def start_game():
             # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
             # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":120})
-            new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)
-            all_objects.append(new_zombie)
+            all_objects.append(zombie_spawner.spwn_zombie(0, ""))
+            all_objects.append(zombie_spawner.spwn_zombie(1, ""))
+            all_objects.append(zombie_spawner.spwn_zombie(2, ""))
+            all_objects.append(zombie_spawner.spwn_zombie(3, ""))
+            all_objects.append(zombie_spawner.spwn_zombie(4, ""))
+            all_objects.append(zombie_spawner.spwn_zombie(5, ""))
 
-            # all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
-            # all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
-            # all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
-            # all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
             
 
 
