@@ -6,6 +6,7 @@ from managers import object_manager
 class Plant(renderable_object_class.RenderableObject):
     def __init__(self: Plant,image_path: str, pos:dict[str,int]):
         super().__init__(image_path, pos)
+        self.collision_layer = 2
         # self.hitbox = (self.x + 17, self.y + 11, 29, 52)
     firerate: float = 1 #rounds per second
 

@@ -8,6 +8,21 @@ def render(screen, image: pygame.Surface, position: dict[str,int], transform_dic
     position_x:int = position["x"]
     position_y:int = position["y"]
     
+    
+    image = transfrom_by_trans_dict(image, transform_dict)
+
+    blit_pos = (0,0)
+
+    if position_x == 0 and position_y == 0:
+        blit_pos = image.get_rect()
+    else:
+        blit_pos = (position_x, position_y)
+
+    screen.blit(image, blit_pos)
+
+    return image
+
+def transfrom_by_trans_dict(image: pygame.Surface, transform_dict: dict) -> pygame.Surface:
     if "flip" in transform_dict:
         flip_dict: dict = transform_dict["flip"]
         image = pygame.transform.flip(image, flip_dict["flip_x"], flip_dict["flip_y"])
@@ -23,18 +38,15 @@ def render(screen, image: pygame.Surface, position: dict[str,int], transform_dic
     if "scale by" in transform_dict:
         scale_by_dict: dict = transform_dict["scale by"]
         image = pygame.transform.scale_by(image, scale_by_dict["amount"])
-
-
-    blit_pos = (0,0)
-
-    if position_x == 0 and position_y == 0:
-        blit_pos = image.get_rect()
-    else:
-        blit_pos = (position_x, position_y)
-
-    screen.blit(image, blit_pos)
-
+    
     return image
+
+def transform_rect_by_trans_dict(rect: pygame.Rect, transform_dict: dict):
+    if "scale by" in transform_dict:
+        scale_by_dict: dict = transform_dict["scale by"]
+        rect = pygame.Rect.scale_by(rect, scale_by_dict["amount"])
+    
+    return rect
 
 
 

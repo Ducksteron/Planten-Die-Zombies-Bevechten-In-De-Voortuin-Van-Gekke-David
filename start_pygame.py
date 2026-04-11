@@ -35,30 +35,37 @@ def start_game():
 
         if is_first_frame:
             all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
-            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+            # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+            # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+            # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":100})
+            new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":120})
             new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)
             all_objects.append(new_zombie)
 
-            all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
-            all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
-            all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
+            # all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
+            # all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
+            # all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
+            # all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
             
 
 
-        object_manager.handle_shooting(all_objects, dt)
+
+        
 
         #removes all null instances from all objects
         all_objects = object_manager.remove_null_instances(all_objects)
+
+        object_manager.handle_shooting(all_objects, dt)
+
+        object_manager.handle_collision(all_objects)
         #call process for all objects
         object_manager.process_objects(all_objects, dt)
         #call draw for all objects
         object_manager.draw_objects(all_objects, screen)
         
+        #removes all null instances from all objects
+        all_objects = object_manager.remove_null_instances(all_objects)
 
 
         # flip() the display to put your work on screen
@@ -71,7 +78,7 @@ def start_game():
 
         is_first_frame = False
 
-        print(1/dt)
+        # print(1/dt)
 
     pygame.quit()
 

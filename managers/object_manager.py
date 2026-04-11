@@ -1,6 +1,7 @@
 from classes import game_object_class
 from classes import renderable_object_class
 from classes import plant_class
+import pygame
 
 def remove_null_instances(all_objects: list[game_object_class.GameObject]) -> list[game_object_class.GameObject]:
     for object in all_objects:
@@ -19,6 +20,41 @@ def draw_objects(all_objects: list[game_object_class.GameObject], screen) -> Non
                 continue
 
             object.draw(screen) # type: ignore
+
+def handle_collision(all_objects: list[game_object_class.GameObject]):
+    object_col_layer_dict: dict[int, list[game_object_class.GameObject]] = {}
+    for object in all_objects: #sort objects by collision layer
+        if object.collision_layer == -1: #discard those without col layer
+            continue
+        if object.collision_rect == pygame.Rect(0,0,0,0): #discard without col rect
+            continue
+        
+        if not (object.collision_layer in object_col_layer_dict):
+            object_col_layer_dict[object.collision_layer] = []
+        
+        col_layer_object_list = object_col_layer_dict[object.collision_layer]
+        col_layer_object_list.append(object)
+        object_col_layer_dict[object.collision_layer] = col_layer_object_list
+
+    for col_layer in object_col_layer_dict.keys(): #gets all objects of certain col layer
+        objects = object_col_layer_dict[col_layer]
+
+        #compares all objects to eachother to see if theyre colliding
+        for first_object_index in range(len(objects)):
+            first_object = objects[first_object_index]
+
+            for second_object_index in range(len(objects)):
+                if first_object_index == second_object_index: #dont compare object to itself
+                    continue
+                
+                second_object = objects[second_object_index]
+
+                #colliding so call on collision for both objects
+                if first_object.collision_rect.colliderect(second_object.collision_rect):
+                    first_object.on_collision(second_object)
+                    second_object.on_collision(first_object)
+
+
 
 
 
