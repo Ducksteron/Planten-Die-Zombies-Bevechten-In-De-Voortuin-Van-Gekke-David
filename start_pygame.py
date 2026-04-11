@@ -4,6 +4,7 @@ from managers import plant_plant as planter
 from managers import object_manager
 from classes import game_object_class
 from classes import plant_class
+from classes import zombie_class
 
 
 def start_game():
@@ -31,12 +32,16 @@ def start_game():
 
         render_background(screen)
 
-        if is_first_frame:
-            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
-            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+        # if is_first_frame:
+        #     all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+        #     all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+        #     all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+        #     all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
+        #     new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":100})
+        #     new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)
+        #     all_objects.append(new_zombie)
+
             # all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
             # all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
             # all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
@@ -64,6 +69,8 @@ def start_game():
         dt = clock.tick(120) / 1000
 
         is_first_frame = False
+
+        print(1/dt)
 
     pygame.quit()
 
