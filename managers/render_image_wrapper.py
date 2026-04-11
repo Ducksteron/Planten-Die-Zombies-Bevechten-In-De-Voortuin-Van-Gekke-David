@@ -1,12 +1,13 @@
 import pygame
 
-def render(screen, path:str, position: dict[str,int], transform_dict: dict = {}) -> pygame.Surface:
+def render_from_path(screen, path: str, position: dict[str,int], transform_dict: dict = {}) -> pygame.Surface:
+    image = pygame.image.load(path)
+    return render(screen, image, position, transform_dict)
+
+def render(screen, image: pygame.Surface, position: dict[str,int], transform_dict: dict = {}) -> pygame.Surface:
     position_x:int = position["x"]
     position_y:int = position["y"]
     
-    image = pygame.image.load(path)
-    
-
     if "flip" in transform_dict:
         flip_dict: dict = transform_dict["flip"]
         image = pygame.transform.flip(image, flip_dict["flip_x"], flip_dict["flip_y"])

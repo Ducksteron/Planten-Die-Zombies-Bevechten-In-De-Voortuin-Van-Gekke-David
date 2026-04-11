@@ -15,6 +15,7 @@ def start_game():
     running = True
     dt = 0
     all_objects: list[game_object_class.GameObject] = []
+    background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
     is_first_frame: bool = True
 
     horse_trans_dict = renderer.scale_by_trans_dict({},0.1)
@@ -30,22 +31,22 @@ def start_game():
         # fill the screen with a color to wipe away anything from last frame
         screen.fill("purple")
 
-        render_background(screen)
+        render_background(screen, background_image)
 
-        # if is_first_frame:
-        #     all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
-        #     all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-        #     all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-        #     all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+        if is_first_frame:
+            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+            all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
+            all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
+            all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-        #     new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":100})
-        #     new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)
-        #     all_objects.append(new_zombie)
+            new_zombie = zombie_class.Zombie("images/zombies/zombie.png", {"x":800,"y":100})
+            new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)
+            all_objects.append(new_zombie)
 
-            # all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
-            # all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
-            # all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
-            # all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
+            all_objects.append(planter.plant_plant({"x":-1,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":999,"y":0}, "test"))
+            all_objects.append(planter.plant_plant({"x":0,"y":-1}, "test"))
+            all_objects.append(planter.plant_plant({"x":8,"y":987896}, "test"))
             
 
 
@@ -75,5 +76,5 @@ def start_game():
     pygame.quit()
 
 
-def render_background(screen):
-    renderer.render(screen,"images/backgrounds/cropped frontyard.png", {"x":0,"y":0})
+def render_background(screen, background_image):
+    renderer.render(screen,background_image, {"x":0,"y":0})
