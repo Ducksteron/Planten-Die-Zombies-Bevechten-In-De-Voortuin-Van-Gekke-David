@@ -34,18 +34,19 @@ def start_game():
 
         if is_first_frame:
             all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter"))
-            all_objects.append(planter.plant_plant({"x":1,"y":2}, "repeater"))
+            all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter"))
+            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater"))
             # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
             # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
             # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
             new_zombies: list = []
-            new_zombies.append(zombie_spawner.spwn_zombie(0, ""))
-            new_zombies.append(zombie_spawner.spwn_zombie(1, ""))
-            new_zombies.append(zombie_spawner.spwn_zombie(2, ""))
-            new_zombies.append(zombie_spawner.spwn_zombie(3, ""))
-            new_zombies.append(zombie_spawner.spwn_zombie(4, ""))
-            new_zombies.append(zombie_spawner.spwn_zombie(5, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(0, "basic"))
+            new_zombies.append(zombie_spawner.spwn_zombie(1, "basic"))
+            new_zombies.append(zombie_spawner.spwn_zombie(2, "conehead"))
+            new_zombies.append(zombie_spawner.spwn_zombie(3, "conehead"))
+            new_zombies.append(zombie_spawner.spwn_zombie(4, "basic"))
+            new_zombies.append(zombie_spawner.spwn_zombie(5, "basic"))
 
             for new_zombie_object_list in new_zombies:
                 for new_zombie_object in new_zombie_object_list:

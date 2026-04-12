@@ -61,9 +61,9 @@ class Peashooter(Plant):
         super().__init__( "images/plants/peashooter.png", pos, max_health=100)
         self.firerate = 1
         self.current_health = self.max_health
-        self.projectile_spawn_offset = {"x":50,"y":0}
+        self.projectile_spawn_offset = {"x":50,"y":10}
         self.projectile_image_path= "images/projectiles/pea.png"
-        self.image_path = "images/plants/peashooter.png"
+        # self.image_path = "images/plants/peashooter.png"
         self.trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
 
         
@@ -76,9 +76,9 @@ class Repeater(Plant):
         self.firerate = 0.5
         self.max_health = 100
         self.current_health = self.max_health
-        self.projectile_spawn_offset = {"x":50,"y":0}
+        self.projectile_spawn_offset = {"x":50,"y":10}
         self.projectile_image_path= "images/projectiles/pea.png"
-        self.image_path = "images/plants/repeater.webp"
+        # self.image_path = "images/plants/repeater.webp"
         self.trans_dict = renderer.scale_by_trans_dict({}, 0.0833333333333)
 
         

@@ -8,20 +8,25 @@ import pygame
 
 
 class Zombie(RenderableObject):
-    def __init__(self: Zombie,image_path: str, pos:dict[str,int]):
+    def __init__(self: Zombie,image_path: str, pos:dict[str,int], max_health):
         super().__init__(image_path, pos)
         self.collision_layer = 1
+        self.current_health = max_health
+        self.max_health = max_health
+
+    current_health:int
+    max_health:int 
+    is_eating: bool = False
+    eating_plant: Plant
+    damage_per_second: int
+    child_plant_detector: PlantDetector
+    waited_time:float = 0.0
 
     def get_child_plant_detector(self: Zombie) -> PlantDetector:
         self.child_plant_detector = PlantDetector("images/misc/german_horse.png", self.pos, self)
         return self.child_plant_detector
 
-    health: int = 100
-    is_eating: bool = False
-    eating_plant: Plant
-    damage_per_second: int = 50
-    child_plant_detector: PlantDetector
-    waited_time:float = 0.0
+
 
     def process(self: Zombie, delta_time: float) -> None:
         super().process(delta_time)
@@ -36,8 +41,8 @@ class Zombie(RenderableObject):
         super().draw(screen, use_given_trans_dict, given_trans_dict)
     
     def damage_self(self: Zombie, damage:int) -> None:
-        self.health -= damage
-        if self.health <= 0:
+        self.current_health -= damage
+        if self.current_health <= 0:
             self.is_null = True
             self.child_plant_detector.is_null = True
     
@@ -57,7 +62,7 @@ class PlantDetector(RenderableObject):
     def __init__(self: PlantDetector,image_path: str, pos:dict[str,int], parent_zombie: Zombie):
         super().__init__(image_path, pos)
         self.parent_zombie = parent_zombie
-        self.show_col_box = True
+        self.show_col_box = False
         self.use_default_col_box = False
         self.visible = False
         
@@ -88,3 +93,19 @@ class PlantDetector(RenderableObject):
         self.parent_zombie.is_eating = True
         self.parent_zombie.eating_plant = plant
         
+
+
+class BasicZombie(Zombie):
+    def __init__(self: BasicZombie, image_path: str, pos: dict[str, int]):
+        self.max_health = 100
+        super().__init__("images/zombies/zombie.png", pos, max_health = self.max_health)
+        self.damage_per_second = 50
+        self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.05)
+
+
+class Conehead(Zombie):
+    def __init__(self: Conehead, image_path: str, pos: dict[str, int]):
+        self.max_health = 400
+        super().__init__("images/zombies/conehead.webp", pos, max_health = self.max_health)
+        self.damage_per_second = 50
+        self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.2)
