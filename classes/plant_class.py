@@ -1,7 +1,7 @@
 from classes import projectile_class
 from classes import renderable_object_class
 from managers import object_manager
-
+from managers import render_image_wrapper as renderer
 
 class Plant(renderable_object_class.RenderableObject):
     def __init__(self: Plant,image_path: str, pos:dict[str,int]):
@@ -25,7 +25,9 @@ class Plant(renderable_object_class.RenderableObject):
         
         if self._waited_time >= self.firerate:
             self._waited_time = 0
-            return self.shoot(projectile_class.Projectile("images/misc/goosington.png", self.pos))
+            new_projectile: projectile_class.Projectile = projectile_class.Projectile("images/projectiles/pea.png", self.pos)
+            new_projectile.trans_dict = renderer.scale_by_trans_dict(new_projectile.trans_dict, 0.5)
+            return self.shoot(new_projectile)
             
         else:
             return self.get_null_projectile()
