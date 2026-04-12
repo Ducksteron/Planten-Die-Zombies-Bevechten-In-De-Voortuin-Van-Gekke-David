@@ -11,6 +11,7 @@ class Plant(renderable_object_class.RenderableObject):
     firerate: float = 1 #rounds per second
     max_health: int = 100
     current_health: int = max_health
+    projectile_spawn_offset: dict[str,int] = {"x":50,"y":0}
 
    
     def process(self: Plant, delta_time: float) -> None:
@@ -25,7 +26,7 @@ class Plant(renderable_object_class.RenderableObject):
         
         if self._waited_time >= self.firerate:
             self._waited_time = 0
-            new_projectile: projectile_class.Projectile = projectile_class.Projectile("images/projectiles/pea.png", self.pos)
+            new_projectile: projectile_class.Projectile = projectile_class.Projectile("images/projectiles/pea.png", {"x": self.pos["x"] + self.projectile_spawn_offset["x"], "y": self.pos["y"] + self.projectile_spawn_offset["y"]})
             new_projectile.trans_dict = renderer.scale_by_trans_dict(new_projectile.trans_dict, 0.5)
             return self.shoot(new_projectile)
             
