@@ -9,7 +9,7 @@ def spwn_zombie(lane:int, type: str) -> list:
         new_zombie.is_null = True
         return [new_zombie, new_zombie.get_child_plant_detector()]
 
-    pixel_position = {"x": 800, "y": get_spawn_pos(lane, 80, 100)}
+    pixel_position = {"x": 800, "y": get_spawn_pos(lane, 60, 100)}
     
     new_zombie = Zombie("images/zombies/zombie.png", pixel_position)
     new_zombie.trans_dict = renderer.scale_by_trans_dict(new_zombie.trans_dict, 0.05)

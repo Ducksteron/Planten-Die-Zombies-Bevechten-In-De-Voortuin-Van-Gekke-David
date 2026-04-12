@@ -16,7 +16,7 @@ class Zombie(RenderableObject):
         self.child_plant_detector = PlantDetector("images/misc/german_horse.png", self.pos, self)
         return self.child_plant_detector
 
-    health: int = 10000
+    health: int = 100
     is_eating: bool = False
     eating_plant: Plant
     damage_per_second: int = 50
