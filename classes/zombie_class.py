@@ -77,7 +77,8 @@ class PlantDetector(RenderableObject):
         super().draw(screen, use_given_trans_dict, given_trans_dict)
         
         self.collision_layer = 2
-        self.collision_rect = pygame.Rect(self.pos["x"], self.pos["y"], self.parent_zombie.collision_rect.w/2, self.parent_zombie.collision_rect.h/2)
+        #+40 on y to not get top plants
+        self.collision_rect = pygame.Rect(self.pos["x"], self.pos["y"] + 40, self.parent_zombie.collision_rect.w/2, self.parent_zombie.collision_rect.h/2)
 
     def on_collision(self:PlantDetector, collision_body: GameObject) -> None:
         self.on_plant_collision(collision_body) #type: ignore
