@@ -64,3 +64,9 @@ def handle_shooting(all_objects: list[game_object_class.GameObject], delta_time:
             all_objects.append(object.handle_shooting(delta_time)) # type: ignore
     
     return all_objects
+
+def handle_zombies_eating(all_objects: list[game_object_class.GameObject], delta_time: float) -> None:
+    for object in all_objects:
+        from classes import zombie_class
+        if issubclass(type(object), zombie_class.Zombie):
+            object.handle_eating(delta_time) #type: ignore

@@ -4,8 +4,6 @@ from managers import plant_plant as planter
 from managers import zombie_spawner
 from managers import object_manager
 from classes import game_object_class
-from classes import plant_class
-from classes import zombie_class
 
 
 def start_game():
@@ -40,12 +38,17 @@ def start_game():
             # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
             # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
             
-            all_objects.append(zombie_spawner.spwn_zombie(0, ""))
-            all_objects.append(zombie_spawner.spwn_zombie(1, ""))
-            all_objects.append(zombie_spawner.spwn_zombie(2, ""))
-            all_objects.append(zombie_spawner.spwn_zombie(3, ""))
-            all_objects.append(zombie_spawner.spwn_zombie(4, ""))
-            all_objects.append(zombie_spawner.spwn_zombie(5, ""))
+            new_zombies: list = []
+            new_zombies.append(zombie_spawner.spwn_zombie(0, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(1, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(2, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(3, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(4, ""))
+            new_zombies.append(zombie_spawner.spwn_zombie(5, ""))
+
+            for new_zombie_object_list in new_zombies:
+                for new_zombie_object in new_zombie_object_list:
+                    all_objects.append(new_zombie_object)
 
             
 
@@ -57,6 +60,7 @@ def start_game():
         all_objects = object_manager.remove_null_instances(all_objects)
 
         object_manager.handle_shooting(all_objects, dt)
+        object_manager.handle_zombies_eating(all_objects,dt)
 
         object_manager.handle_collision(all_objects)
         #call process for all objects

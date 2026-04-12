@@ -1,21 +1,34 @@
 from classes.game_object_class import GameObject
 from classes.projectile_class import Projectile
+from classes.renderable_object_class import RenderableObject
+from classes.plant_class import Plant
 from managers import render_image_wrapper as renderer
-from classes import renderable_object_class as ROC
+
 import pygame
 
 
-class Zombie(ROC.RenderableObject):
+class Zombie(RenderableObject):
     def __init__(self: Zombie,image_path: str, pos:dict[str,int]):
         super().__init__(image_path, pos)
         self.collision_layer = 1
 
-    health: int = 100
-   
+    def get_child_plant_detector(self: Zombie) -> PlantDetector:
+        self.child_plant_detector = PlantDetector("images/misc/german_horse.png", self.pos, self)
+        return self.child_plant_detector
+
+    health: int = 10000
+    is_eating: bool = False
+    eating_plant: Plant
+    damage_per_second: int = 50
+    child_plant_detector: PlantDetector
+    waited_time:float = 0.0
+
     def process(self: Zombie, delta_time: float) -> None:
         super().process(delta_time)
-    
-        self.pos = {"x": self.pos["x"] - 100 * delta_time, "y": self.pos["y"]}
+
+        if not self.is_eating:
+            self.pos = {"x": self.pos["x"] - 100 * delta_time, "y": self.pos["y"]}
+        
         if self.pos["x"] < -100:
             self.is_null = True
     
@@ -26,5 +39,51 @@ class Zombie(ROC.RenderableObject):
         self.health -= damage
         if self.health <= 0:
             self.is_null = True
+            self.child_plant_detector.is_null = True
+    
+    waited_time: float
+    def handle_eating(self: Zombie, delta_time: float) -> None:
+        if not self.is_eating:
+            return
+        self.waited_time += delta_time
+        if self.waited_time >= 1:
+            self.eating_plant.damage_self(int(self.damage_per_second * self.waited_time)) #type: ignore
+            self.waited_time = 0
+        if self.eating_plant.current_health <= 0:
+            self.is_eating = False
+
+        
+class PlantDetector(RenderableObject):
+    def __init__(self: PlantDetector,image_path: str, pos:dict[str,int], parent_zombie: Zombie):
+        super().__init__(image_path, pos)
+        self.parent_zombie = parent_zombie
+        self.show_col_box = True
+        self.use_default_col_box = False
+        self.visible = False
         
 
+    parent_zombie: Zombie
+
+    def process(self: PlantDetector, delta_time: float) -> None:
+        super().process(delta_time)
+
+        self.pos = self.parent_zombie.pos
+        if self.pos["x"] < -100:
+            self.is_null = True
+    
+    
+    def draw(self: PlantDetector,screen, use_given_trans_dict:bool = False, given_trans_dict: dict[str,dict] = {}):
+        
+        super().draw(screen, use_given_trans_dict, given_trans_dict)
+        
+        self.collision_layer = 2
+        self.collision_rect = pygame.Rect(self.pos["x"], self.pos["y"], self.parent_zombie.collision_rect.w/2, self.parent_zombie.collision_rect.h/2)
+
+    def on_collision(self:PlantDetector, collision_body: GameObject) -> None:
+        self.on_plant_collision(collision_body) #type: ignore
+
+
+    def on_plant_collision(self: PlantDetector, plant: Plant):
+        self.parent_zombie.is_eating = True
+        self.parent_zombie.eating_plant = plant
+        
