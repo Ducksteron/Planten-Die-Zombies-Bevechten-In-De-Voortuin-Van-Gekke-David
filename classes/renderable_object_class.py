@@ -4,10 +4,18 @@ import pygame
 
 class RenderableObject(game_object_class.GameObject):
     def __init__(self: RenderableObject,image_path: str, pos:dict[str,int]) -> None:
-        self.image_path = image_path
-        self.image = pygame.image.load(image_path)
         self.pos = pos
         self.trans_dict = {}
+
+        if image_path == "":
+            self.image_path = "images/misc/german_horse.png"
+            self.visible = False
+            self.show_col_box = True
+            return
+        
+        self.image_path = image_path
+        self.image = pygame.image.load(image_path)
+
     
     visible: bool = True
     show_col_box: bool = False

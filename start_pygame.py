@@ -33,7 +33,8 @@ def start_game():
         render_background(screen, background_image)
 
         if is_first_frame:
-            all_objects.append(planter.plant_plant({"x":1,"y":1}, "test"))
+            all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter"))
+            all_objects.append(planter.plant_plant({"x":1,"y":2}, "repeater"))
             # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
             # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
             # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))

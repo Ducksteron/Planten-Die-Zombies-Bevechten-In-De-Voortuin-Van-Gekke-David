@@ -5,17 +5,26 @@ from classes import plant_class
 def plant_plant(position: dict[str,int], type: str) -> plant_class.Plant:
     if position["x"] > 8 or position["x"] < 0 or position["y"] > 4 or position["y"] < 0:
         print("plant_plant.py: given position is not valid! return null plant.")
-        new_plant = plant_class.Plant("images/plants/peashooter.png", {"x": 67, "y":67})
-        new_plant.is_null = True
-        return new_plant
+        return get_null_plant()
 
     pixel_position = get_spawn_pos(position, {"x":65,"y":80}, {"x":82,"y":100}, {"x":9,"y":5})
     
-    new_plant = plant_class.Plant("images/plants/peashooter.png", pixel_position)
-    ps_trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
-    new_plant.trans_dict = ps_trans_dict
+    new_plant: plant_class.Plant
+    if type == "peashooter":
+        new_plant = plant_class.Peashooter("", pixel_position)
+    elif type == "repeater":
+        new_plant = plant_class.Repeater("", pixel_position)
+    else:
+        print("plant_plant.py: given type not recognized! returning null plant.")
+        new_plant = get_null_plant()
 
     return new_plant
+
+def get_null_plant() -> plant_class.Plant:
+    new_plant = plant_class.Plant("images/plants/peashooter.png", {"x": 67, "y":67}, 67)
+    new_plant.is_null = True
+    return new_plant
+
 
 
 def get_spawn_pos(looking_for_pos: dict[str,int], start_pos: dict[str,int], offsets: dict[str,int], total_positions: dict[str,int]) -> dict[str,int]:

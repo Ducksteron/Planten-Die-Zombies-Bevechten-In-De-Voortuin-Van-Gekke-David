@@ -4,14 +4,18 @@ from managers import object_manager
 from managers import render_image_wrapper as renderer
 
 class Plant(renderable_object_class.RenderableObject):
-    def __init__(self: Plant,image_path: str, pos:dict[str,int]):
+    def __init__(self: Plant,image_path: str, pos:dict[str,int], max_health: int):
         super().__init__(image_path, pos)
         self.collision_layer = 2
-        self.show_col_box = True
-    firerate: float = 1 #rounds per second
-    max_health: int = 100
-    current_health: int = max_health
-    projectile_spawn_offset: dict[str,int] = {"x":50,"y":0}
+        self.show_col_box = False
+        self.max_health = max_health
+        self.current_health = max_health
+
+    firerate: float #seconds per round
+    max_health: int
+    current_health: int
+    projectile_spawn_offset: dict[str,int]
+    projectile_image_path:str
 
    
     def process(self: Plant, delta_time: float) -> None:
@@ -52,4 +56,29 @@ class Plant(renderable_object_class.RenderableObject):
         self.is_null = True
         self.collision_layer = -1
     
+class Peashooter(Plant):
+    def __init__(self: Peashooter,image_path: str, pos:dict[str,int]):
+        super().__init__( "images/plants/peashooter.png", pos, max_health=100)
+        self.firerate = 1
+        self.current_health = self.max_health
+        self.projectile_spawn_offset = {"x":50,"y":0}
+        self.projectile_image_path= "images/projectiles/pea.png"
+        self.image_path = "images/plants/peashooter.png"
+        self.trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
 
+        
+        
+        
+
+class Repeater(Plant):
+    def __init__(self: Repeater,image_path: str, pos:dict[str,int]):
+        super().__init__("images/plants/repeater.webp", pos,  max_health=100)
+        self.firerate = 0.5
+        self.max_health = 100
+        self.current_health = self.max_health
+        self.projectile_spawn_offset = {"x":50,"y":0}
+        self.projectile_image_path= "images/projectiles/pea.png"
+        self.image_path = "images/plants/repeater.webp"
+        self.trans_dict = renderer.scale_by_trans_dict({}, 0.0833333333333)
+
+        
