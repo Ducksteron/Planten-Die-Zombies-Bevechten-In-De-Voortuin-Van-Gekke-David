@@ -26,7 +26,7 @@ class Projectile(renderable_object_class.RenderableObject):
         if self.is_null:
             return
 
-        if issubclass(type(collision_body), GameObject):
+        if issubclass(type(collision_body), GameObject) and not issubclass(type(collision_body), Projectile):
             self.on_zombie_collision(collision_body) #type: ignore
     
     def on_zombie_collision(self: Projectile, zombie: GameObject) -> None:

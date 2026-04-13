@@ -11,9 +11,9 @@ class Plant(renderable_object_class.RenderableObject):
         self.max_health = max_health
         self.current_health = max_health
 
-    firerate: float #seconds per round
-    max_health: int
-    current_health: int
+    firerate: float = 1#seconds per round
+    max_health: int = 1
+    current_health: int = 1
     projectile_spawn_offset: dict[str,int]
     projectile_image_path:str
 
@@ -28,7 +28,7 @@ class Plant(renderable_object_class.RenderableObject):
             return self.get_null_projectile()
         
         
-        if self._waited_time >= self.firerate:
+        if self._waited_time >= self.firerate: 
             self._waited_time = 0
             new_projectile: projectile_class.Projectile = projectile_class.Projectile("images/projectiles/pea.png", {"x": self.pos["x"] + self.projectile_spawn_offset["x"], "y": self.pos["y"] + self.projectile_spawn_offset["y"]})
             new_projectile.trans_dict = renderer.scale_by_trans_dict(new_projectile.trans_dict, 0.5)

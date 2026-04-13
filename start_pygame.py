@@ -3,6 +3,7 @@ from managers import render_image_wrapper as renderer
 from managers import plant_plant as planter
 from managers import zombie_spawner
 from managers import object_manager
+from managers import input_manager
 from classes import game_object_class
 
 
@@ -14,10 +15,9 @@ def start_game():
     running = True
     dt = 0
     all_objects: list[game_object_class.GameObject] = []
+    board: planter.Board = planter.Board(8, 4)
     background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
     is_first_frame: bool = True
-
-    horse_trans_dict = renderer.scale_by_trans_dict({},0.1)
 
 
     while running:
@@ -33,12 +33,12 @@ def start_game():
         render_background(screen, background_image)
 
         if is_first_frame:
-            all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter"))
-            all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter"))
-            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater"))
-            # all_objects.append(planter.plant_plant({"x":2,"y":2}, "test"))
-            # all_objects.append(planter.plant_plant({"x":3,"y":3}, "test"))
-            # all_objects.append(planter.plant_plant({"x":4,"y":4}, "test"))
+            all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter", board))
+            all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter", board))
+            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
+            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
+            planter.remove_plant({"x":1,"y":3}, board)
+            planter.remove_plant({"x":5,"y":2}, board)
             
             new_zombies: list = []
             new_zombies.append(zombie_spawner.spwn_zombie(0, "basic"))
@@ -52,7 +52,9 @@ def start_game():
                 for new_zombie_object in new_zombie_object_list:
                     all_objects.append(new_zombie_object)
 
-            
+        
+        all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen)))
+        # print(input_manager.handle_input(screen))
 
 
 
