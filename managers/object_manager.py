@@ -1,11 +1,22 @@
 from classes import game_object_class
 from classes import renderable_object_class
 from classes import plant_class
+
 import pygame
 
-def remove_null_instances(all_objects: list[game_object_class.GameObject]) -> list[game_object_class.GameObject]:
+def remove_null_instances(all_objects: list[game_object_class.GameObject], board) -> list[game_object_class.GameObject]:
     for object in all_objects:
         if object.is_null:
+            if issubclass(type(object), plant_class.Plant): #remove plant from board so squares with eaten plants can be replanted
+                from managers.plant_plant import Board #done here bc circular import error
+                static_board: Board = board
+                
+                plant_object: plant_class.Plant = object #type: ignore
+                plant_pos:dict[str,int] = plant_object.position
+                if "x" in plant_pos: #some null plants dont have position and dont have to be cleared
+                    static_board.legal_moves[plant_pos["x"]][plant_pos["y"]] = True
+                    static_board.plants[plant_pos["x"]][plant_pos["y"]] = None
+
             all_objects.remove(object)
     return all_objects
 

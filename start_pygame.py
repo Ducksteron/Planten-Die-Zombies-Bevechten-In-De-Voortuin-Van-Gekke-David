@@ -57,11 +57,16 @@ def start_game():
         # print(input_manager.handle_input(screen))
 
 
+        # for event in pygame.event.get():
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         print("jorkjerk")
+        # print(pygame.mouse.get_pressed())
+        # if pygame.mouse.get_pressed()[0]:
+            # print("sexsox")
 
-        
 
         #removes all null instances from all objects
-        all_objects = object_manager.remove_null_instances(all_objects)
+        all_objects = object_manager.remove_null_instances(all_objects, board)
 
         object_manager.handle_shooting(all_objects, dt)
         object_manager.handle_zombies_eating(all_objects,dt)
@@ -73,7 +78,7 @@ def start_game():
         object_manager.draw_objects(all_objects, screen)
         
         #removes all null instances from all objects
-        all_objects = object_manager.remove_null_instances(all_objects)
+        all_objects = object_manager.remove_null_instances(all_objects, board)
 
 
         # flip() the display to put your work on screen

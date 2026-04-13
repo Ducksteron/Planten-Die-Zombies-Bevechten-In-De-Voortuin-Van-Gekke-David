@@ -16,6 +16,7 @@ class Plant(renderable_object_class.RenderableObject):
     current_health: int = 1
     projectile_spawn_offset: dict[str,int]
     projectile_image_path:str
+    position: dict[str,int] = {}
 
    
     def process(self: Plant, delta_time: float) -> None:

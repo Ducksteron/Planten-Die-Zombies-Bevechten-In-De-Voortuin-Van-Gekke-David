@@ -3,8 +3,8 @@ from managers import plant_plant as planter
 from managers import render_image_wrapper as renderer
 
 def handle_input(screen) -> dict: #screen is passed for debugging
-    plant_mouse_button: int = 1
-    remove_mouse_button: int = 3
+    plant_mouse_button: int = 0
+    remove_mouse_button: int = 2
 
     peashooter_event = pygame.K_1
     repeater_event = pygame.K_2
@@ -20,9 +20,9 @@ def handle_input(screen) -> dict: #screen is passed for debugging
     for rectangle_pos_string in rects.keys():
         rect_pos = str_to_pos_dict(rectangle_pos_string)
         rect = rects[rectangle_pos_string]
-        pygame.draw.rect(screen, (255,0,0), rect, 4)
+        # pygame.draw.rect(screen, (255,0,0), rect, 4)
         if rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(screen, (255,255,0), rect, 4)
+            # pygame.draw.rect(screen, (255,255,0), rect, 4)
             colliding_rect_pos = rect_pos
             break
     
@@ -31,14 +31,16 @@ def handle_input(screen) -> dict: #screen is passed for debugging
 
 
     events = pygame.event.get()
+    mouse_pressed_list = pygame.mouse.get_pressed()
     for event in events:
-        if not event.type == pygame.MOUSEBUTTONDOWN:
+        if not (mouse_pressed_list[plant_mouse_button] or mouse_pressed_list[remove_mouse_button]):
             continue
         
         return_dict["position"] = colliding_rect_pos
         return_dict["event_happened"] = True
         
-        if event.button == plant_mouse_button:
+        
+        if mouse_pressed_list[plant_mouse_button]:
             return_dict["event"] = "plant"
 
             keys_pressed = pygame.key.get_pressed()
@@ -51,7 +53,7 @@ def handle_input(screen) -> dict: #screen is passed for debugging
 
 
             
-        elif event.button == remove_mouse_button:
+        elif mouse_pressed_list[remove_mouse_button]:
             return_dict["event"] = "remove"
     
     return return_dict

@@ -37,6 +37,8 @@ def plant_plant(position: dict[str,int], type: str, board: Board) -> plant_class
     else:
         print("plant_plant.py: given type not recognized! returning null plant.")
         return get_null_plant()
+    new_plant.position = position
+
 
     board.legal_moves[position["x"]][position["y"]] = False
     board.plants[position["x"]][position["y"]] = new_plant
