@@ -5,7 +5,7 @@ import random
 
 
 def handle_zombie_spawning(all_objects: list[GameObject], elapsed_time:float) -> list[GameObject]:
-    difficulty:float = 2000 #the higher, the easier
+    difficulty:float = 1000 #the higher, the easier
     zombie_types: list[str] = ["basic", "conehead"] #ascending toughness
     
     threshold = pow((elapsed_time/difficulty), 2)
@@ -19,7 +19,7 @@ def handle_zombie_spawning(all_objects: list[GameObject], elapsed_time:float) ->
     zombie_list: list = []
 
     random_number = random.random()
-    print(random_number," | ", threshold)
+    
     if random_number < threshold:
         zombie_type = zombie_types[int(threshold * random_number / (1/len(zombie_types)))]
         

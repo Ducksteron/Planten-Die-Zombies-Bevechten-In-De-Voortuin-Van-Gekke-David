@@ -50,6 +50,9 @@ class Zombie(RenderableObject):
     def handle_eating(self: Zombie, delta_time: float) -> None:
         if not self.is_eating:
             return
+        
+
+
         self.waited_time += delta_time
         if self.waited_time >= 1:
             self.eating_plant.damage_self(int(self.damage_per_second * self.waited_time)) #type: ignore
@@ -86,6 +89,9 @@ class PlantDetector(RenderableObject):
         self.collision_rect = pygame.Rect(self.pos["x"], self.pos["y"] + 40, self.parent_zombie.collision_rect.w/2, self.parent_zombie.collision_rect.h/2)
 
     def on_collision(self:PlantDetector, collision_body: GameObject) -> None:
+        if not hasattr(collision_body, "current_health"):
+            #sometimes zombies' plant detectors wil detect other plant detectors
+            return
         self.on_plant_collision(collision_body) #type: ignore
 
 
