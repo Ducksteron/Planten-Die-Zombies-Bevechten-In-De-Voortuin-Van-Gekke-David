@@ -10,7 +10,7 @@ def handle_planting(board: Board, input_dict:dict) -> plant_class.Plant:
     
     pos = input_dict["position"]
     if input_dict["event"] == "plant":
-        return plant_plant(pos, "peashooter", board)
+        return plant_plant(pos, input_dict["type"], board)
     elif input_dict["event"] == "remove":
         remove_plant(pos, board)
     
