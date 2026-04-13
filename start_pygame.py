@@ -10,13 +10,19 @@ from classes import game_object_class
 def start_game():
     # pygame setup
     pygame.init()
+    
+    background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
     screen = pygame.display.set_mode((843, 600))
+    
+    
     clock = pygame.time.Clock()
     running = True
     dt = 0
+
+    elapsed_time: float = 0.0
     all_objects: list[game_object_class.GameObject] = []
     board: planter.Board = planter.Board(8, 4)
-    background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
+    
     is_first_frame: bool = True
 
 
@@ -40,30 +46,21 @@ def start_game():
             planter.remove_plant({"x":1,"y":3}, board)
             planter.remove_plant({"x":5,"y":2}, board)
             
-            new_zombies: list = []
-            new_zombies.append(zombie_spawner.spwn_zombie(0, "basic"))
-            new_zombies.append(zombie_spawner.spwn_zombie(1, "basic"))
-            new_zombies.append(zombie_spawner.spwn_zombie(2, "conehead"))
-            new_zombies.append(zombie_spawner.spwn_zombie(3, "conehead"))
-            new_zombies.append(zombie_spawner.spwn_zombie(4, "basic"))
-            new_zombies.append(zombie_spawner.spwn_zombie(5, "basic"))
+            # new_zombies: list = []
+            # new_zombies.append(zombie_spawner.spwn_zombie(0, "basic"))
+            # new_zombies.append(zombie_spawner.spwn_zombie(1, "basic"))
+            # new_zombies.append(zombie_spawner.spwn_zombie(2, "conehead"))
+            # new_zombies.append(zombie_spawner.spwn_zombie(3, "conehead"))
+            # new_zombies.append(zombie_spawner.spwn_zombie(4, "basic"))
+            # new_zombies.append(zombie_spawner.spwn_zombie(5, "basic"))
 
-            for new_zombie_object_list in new_zombies:
-                for new_zombie_object in new_zombie_object_list:
-                    all_objects.append(new_zombie_object)
+            # for new_zombie_object_list in new_zombies:
+            #     for new_zombie_object in new_zombie_object_list:
+            #         all_objects.append(new_zombie_object)
 
         
         all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen)))
-        # print(input_manager.handle_input(screen))
-
-
-        # for event in pygame.event.get():
-        #     if event.type == pygame.MOUSEBUTTONDOWN:
-        #         print("jorkjerk")
-        # print(pygame.mouse.get_pressed())
-        # if pygame.mouse.get_pressed()[0]:
-            # print("sexsox")
-
+        all_objects = zombie_spawner.handle_zombie_spawning(all_objects, elapsed_time)
 
         #removes all null instances from all objects
         all_objects = object_manager.remove_null_instances(all_objects, board)
@@ -89,9 +86,10 @@ def start_game():
         # independent physics.
         dt = clock.tick(120) / 1000
 
+        elapsed_time += dt
+
         is_first_frame = False
 
-        # print(1/dt)
 
     pygame.quit()
 
