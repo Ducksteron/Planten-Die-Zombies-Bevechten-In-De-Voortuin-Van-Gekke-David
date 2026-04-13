@@ -4,6 +4,8 @@ from managers import plant_plant as planter
 from managers import zombie_spawner
 from managers import object_manager
 from managers import input_manager
+from managers import sun_manager
+from managers import text_renderer
 from classes import game_object_class
 
 
@@ -13,12 +15,13 @@ def start_game():
     
     background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
     screen = pygame.display.set_mode((843, 600))
-    
+    loaded_font = pygame.font.Font('freesansbold.ttf', 32)
     
     clock = pygame.time.Clock()
     running = True
     dt = 0
 
+    sunwallet: sun_manager.SunWallet = sun_manager.SunWallet()
     elapsed_time: float = 0.0
     all_objects: list[game_object_class.GameObject] = []
     board: planter.Board = planter.Board(8, 4)
@@ -39,10 +42,10 @@ def start_game():
         render_background(screen, background_image)
 
         if is_first_frame:
-            all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter", board))
-            all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter", board))
-            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
-            all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
+            # all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter", board))
+            # all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter", board))
+            # all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
+            # all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
             planter.remove_plant({"x":1,"y":3}, board)
             planter.remove_plant({"x":5,"y":2}, board)
             
@@ -59,8 +62,11 @@ def start_game():
             #         all_objects.append(new_zombie_object)
 
         
-        all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen)))
+        all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen), sunwallet))
         all_objects = zombie_spawner.handle_zombie_spawning(all_objects, elapsed_time)
+        sun_manager.increase_sun(dt, sunwallet)
+        text_renderer.render_text(screen, ("sun = " + str(int(sunwallet.amount_of_sun))), loaded_font, {"x":0,"y":0}, pygame.Color(0,0,0,255))
+       
 
         #removes all null instances from all objects
         all_objects = object_manager.remove_null_instances(all_objects, board)

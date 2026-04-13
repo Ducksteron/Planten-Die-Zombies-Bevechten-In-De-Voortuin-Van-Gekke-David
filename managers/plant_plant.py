@@ -1,8 +1,9 @@
 from managers import render_image_wrapper as renderer
+from managers.sun_manager import SunWallet
 from classes import plant_class
 
 
-def handle_planting(board: Board, input_dict:dict) -> plant_class.Plant:
+def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet) -> plant_class.Plant:
     new_plant: plant_class.Plant = get_null_plant()
 
     if not input_dict["event_happened"]:
@@ -10,14 +11,15 @@ def handle_planting(board: Board, input_dict:dict) -> plant_class.Plant:
     
     pos = input_dict["position"]
     if input_dict["event"] == "plant":
-        return plant_plant(pos, input_dict["type"], board)
+        return plant_plant(pos, input_dict["type"], board, sunwallet)
     elif input_dict["event"] == "remove":
         remove_plant(pos, board)
     
+
     return new_plant
 
 
-def plant_plant(position: dict[str,int], type: str, board: Board) -> plant_class.Plant:
+def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: SunWallet) -> plant_class.Plant:
     if not is_in_range(position):
         print("plant_plant.py: given position is not valid! return null plant.")
         return get_null_plant()
@@ -26,6 +28,7 @@ def plant_plant(position: dict[str,int], type: str, board: Board) -> plant_class
         print("plant_plant.py: given position is occupied! return null plant.")
         return get_null_plant()
 
+    
 
     pixel_position = get_spawn_pos(position, {"x":65,"y":80}, {"x":82,"y":100}, {"x":9,"y":5})
     
@@ -39,6 +42,11 @@ def plant_plant(position: dict[str,int], type: str, board: Board) -> plant_class
         return get_null_plant()
     new_plant.position = position
 
+
+    if new_plant.cost > sunwallet.amount_of_sun:
+        print("plant_plant.py: not enough sun! return null plant.")
+        return get_null_plant()
+    sunwallet.amount_of_sun -= new_plant.cost
 
     board.legal_moves[position["x"]][position["y"]] = False
     board.plants[position["x"]][position["y"]] = new_plant

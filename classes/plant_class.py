@@ -12,6 +12,7 @@ class Plant(renderable_object_class.RenderableObject):
         self.current_health = max_health
 
     firerate: float = 1#seconds per round
+    cost: int = 0
     max_health: int = 1
     current_health: int = 1
     projectile_spawn_offset: dict[str,int]
@@ -61,6 +62,7 @@ class Peashooter(Plant):
     def __init__(self: Peashooter,image_path: str, pos:dict[str,int]):
         super().__init__( "images/plants/peashooter.png", pos, max_health=100)
         self.firerate = 1
+        self.cost = 100
         self.current_health = self.max_health
         self.projectile_spawn_offset = {"x":50,"y":10}
         self.projectile_image_path= "images/projectiles/pea.png"
@@ -76,6 +78,7 @@ class Repeater(Plant):
         super().__init__("images/plants/repeater.webp", pos,  max_health=100)
         self.firerate = 0.5
         self.max_health = 100
+        self.cost = 200
         self.current_health = self.max_health
         self.projectile_spawn_offset = {"x":50,"y":10}
         self.projectile_image_path= "images/projectiles/pea.png"
