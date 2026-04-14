@@ -1,15 +1,17 @@
 from classes import projectile_class
 from classes import renderable_object_class
+from classes.game_stats import GameStats
 from managers import object_manager
 from managers import render_image_wrapper as renderer
 
 class Plant(renderable_object_class.RenderableObject):
-    def __init__(self: Plant,image_path: str, pos:dict[str,int], max_health: int):
+    def __init__(self: Plant,image_path: str, pos:dict[str,int], game_stats : GameStats, max_health: int):
         super().__init__(image_path, pos)
         self.collision_layer = 2
         self.show_col_box = False
         self.max_health = max_health
         self.current_health = max_health
+        self.game_stats = game_stats
 
     firerate: float = 1#seconds per round
     cost: int = 0
@@ -18,6 +20,7 @@ class Plant(renderable_object_class.RenderableObject):
     projectile_spawn_offset: dict[str,int]
     projectile_image_path:str
     position: dict[str,int] = {}
+    game_stats: GameStats
 
    
     def process(self: Plant, delta_time: float) -> None:
@@ -59,8 +62,8 @@ class Plant(renderable_object_class.RenderableObject):
         self.collision_layer = -1
     
 class Peashooter(Plant):
-    def __init__(self: Peashooter,image_path: str, pos:dict[str,int]):
-        super().__init__( "images/plants/peashooter.png", pos, max_health=100)
+    def __init__(self: Peashooter,image_path: str, pos:dict[str,int], game_stats: GameStats):
+        super().__init__( "images/plants/peashooter.png", pos,game_stats, max_health=100)
         self.firerate = 1
         self.cost = 100
         self.current_health = self.max_health
@@ -74,8 +77,8 @@ class Peashooter(Plant):
         
 
 class Repeater(Plant):
-    def __init__(self: Repeater,image_path: str, pos:dict[str,int]):
-        super().__init__("images/plants/repeater.webp", pos,  max_health=100)
+    def __init__(self: Repeater,image_path: str, pos:dict[str,int], game_stats: GameStats):
+        super().__init__("images/plants/repeater.webp", pos,game_stats,  max_health=100)
         self.firerate = 0.5
         self.max_health = 100
         self.cost = 200

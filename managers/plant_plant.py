@@ -1,9 +1,10 @@
 from managers import render_image_wrapper as renderer
 from managers.sun_manager import SunWallet
+from classes.game_stats import GameStats
 from classes import plant_class
 
 
-def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet) -> plant_class.Plant:
+def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet, game_stats: GameStats) -> plant_class.Plant:
     new_plant: plant_class.Plant = get_null_plant()
 
     if not input_dict["event_happened"]:
@@ -11,7 +12,7 @@ def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet) -> plan
     
     pos = input_dict["position"]
     if input_dict["event"] == "plant":
-        return plant_plant(pos, input_dict["type"], board, sunwallet)
+        return plant_plant(pos, input_dict["type"], board, sunwallet, game_stats)
     elif input_dict["event"] == "remove":
         remove_plant(pos, board)
     
@@ -19,7 +20,7 @@ def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet) -> plan
     return new_plant
 
 
-def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: SunWallet) -> plant_class.Plant:
+def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: SunWallet, game_stats: GameStats) -> plant_class.Plant:
     if not is_in_range(position):
         print("plant_plant.py: given position is not valid! return null plant.")
         return get_null_plant()
@@ -34,9 +35,9 @@ def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: Sun
     
     new_plant: plant_class.Plant
     if type == "peashooter":
-        new_plant = plant_class.Peashooter("", pixel_position)
+        new_plant = plant_class.Peashooter("", pixel_position, game_stats)
     elif type == "repeater":
-        new_plant = plant_class.Repeater("", pixel_position)
+        new_plant = plant_class.Repeater("", pixel_position, game_stats)
     else:
         print("plant_plant.py: given type not recognized! returning null plant.")
         return get_null_plant()
@@ -73,7 +74,7 @@ def remove_plant(position: dict[str,int], board: Board) -> None:
 
 
 def get_null_plant() -> plant_class.Plant:
-    new_plant = plant_class.Plant("images/plants/peashooter.png", {"x": 67, "y":67}, 67)
+    new_plant = plant_class.Plant("images/plants/peashooter.png", {"x": 67, "y":67}, GameStats(), 67)
     new_plant.is_null = True
     return new_plant
 

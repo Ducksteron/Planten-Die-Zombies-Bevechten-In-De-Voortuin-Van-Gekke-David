@@ -2,13 +2,14 @@ from classes.game_object_class import GameObject
 from classes.projectile_class import Projectile
 from classes.renderable_object_class import RenderableObject
 from classes.plant_class import Plant
+from classes.game_stats import GameStats
 from managers import render_image_wrapper as renderer
 
 import pygame
 
 
 class Zombie(RenderableObject):
-    def __init__(self: Zombie,image_path: str, pos:dict[str,int], max_health):
+    def __init__(self: Zombie,image_path: str, pos:dict[str,int],game_stats: GameStats, max_health):
         super().__init__(image_path, pos)
         self.collision_layer = 1
         self.current_health = max_health
@@ -102,16 +103,16 @@ class PlantDetector(RenderableObject):
 
 
 class BasicZombie(Zombie):
-    def __init__(self: BasicZombie, image_path: str, pos: dict[str, int]):
+    def __init__(self: BasicZombie, pos: dict[str, int] ,game_stats: GameStats):
         self.max_health = 100
-        super().__init__("images/zombies/zombie.png", pos, max_health = self.max_health)
+        super().__init__("images/zombies/zombie.png", pos,game_stats, max_health = self.max_health)
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.05)
 
 
 class Conehead(Zombie):
-    def __init__(self: Conehead, image_path: str, pos: dict[str, int]):
+    def __init__(self: Conehead, pos: dict[str, int] ,game_stats: GameStats):
         self.max_health = 400
-        super().__init__("images/zombies/conehead.webp", pos, max_health = self.max_health)
+        super().__init__("images/zombies/conehead.webp", pos,game_stats, max_health = self.max_health)
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.2)

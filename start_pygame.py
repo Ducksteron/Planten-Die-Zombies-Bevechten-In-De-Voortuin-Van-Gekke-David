@@ -8,6 +8,7 @@ from managers import sun_manager
 from managers import text_renderer
 from managers import game_ender
 from classes import game_object_class
+from classes.game_stats import GameStats
 
 
 def start_game():
@@ -19,13 +20,15 @@ def start_game():
     loaded_font = pygame.font.Font('freesansbold.ttf', 32)
     
     clock = pygame.time.Clock()
-    running = True
-    dt = 0
+    running: bool = True
+    died: bool = False
+    dt: float = 0
 
     sunwallet: sun_manager.SunWallet = sun_manager.SunWallet()
     elapsed_time: float = 0.0
     all_objects: list[game_object_class.GameObject] = []
     board: planter.Board = planter.Board(8, 4)
+    game_stats: GameStats = GameStats()
     
 
 
@@ -42,8 +45,8 @@ def start_game():
         render_background(screen, background_image)
 
         
-        all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen), sunwallet))
-        all_objects = zombie_spawner.handle_zombie_spawning(all_objects, elapsed_time)
+        all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen), sunwallet, game_stats))
+        all_objects = zombie_spawner.handle_zombie_spawning(all_objects, elapsed_time, game_stats)
         sun_manager.increase_sun(dt, sunwallet)
         text_renderer.render_text(screen, ("sun = " + str(int(sunwallet.amount_of_sun))), loaded_font, {"x":0,"y":0}, pygame.Color(0,0,0,255))
        
@@ -66,7 +69,7 @@ def start_game():
         
         if game_ender.is_game_ended(all_objects): # zombie got past bariers
             running = False
-            break
+            died = True
 
 
         # flip() the display to put your work on screen
@@ -80,6 +83,21 @@ def start_game():
         elapsed_time += dt
 
 
+    all_objects = []
+
+
+
+    displaying_end_screen: bool = True
+    while displaying_end_screen:
+        if not died:
+            break
+
+        screen.fill("black")
+        text_renderer.render_text(screen,"The zombies ate your brains!", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
+        print("incureable disease")
+        
+        pygame.display.flip()
+        dt = clock.tick(120) / 1000
 
     pygame.quit()
 
