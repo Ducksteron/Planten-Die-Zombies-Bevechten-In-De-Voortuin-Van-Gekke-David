@@ -14,7 +14,9 @@ class Zombie(RenderableObject):
         self.collision_layer = 1
         self.current_health = max_health
         self.max_health = max_health
+        self.game_stats = game_stats
 
+    game_stats: GameStats
     current_health:int
     max_health:int 
     is_eating: bool = False
@@ -46,6 +48,7 @@ class Zombie(RenderableObject):
         if self.current_health <= 0:
             self.is_null = True
             self.child_plant_detector.is_null = True
+            self.game_stats.zombies_killed += 1
     
     waited_time: float
     def handle_eating(self: Zombie, delta_time: float) -> None:
@@ -60,6 +63,7 @@ class Zombie(RenderableObject):
             self.waited_time = 0
         if self.eating_plant.current_health <= 0:
             self.is_eating = False
+            self.game_stats.plants_eaten += 1
 
         
 class PlantDetector(RenderableObject):

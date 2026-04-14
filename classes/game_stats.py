@@ -9,3 +9,9 @@ class GameStats():
     time_survived: float = 0.0
 
     sun_collected: float = 0.0
+
+    def add_plant_type(self: GameStats, type: str):
+        if not type in self.plant_planted_types:
+            self.plant_planted_types[type] = 1
+        else:
+            self.plant_planted_types[type] += 1

@@ -67,6 +67,10 @@ def start_game():
         all_objects = object_manager.remove_null_instances(all_objects, board)
 
         
+        game_stats.sun_collected = sunwallet.total_sun_gotten
+        game_stats.time_survived = elapsed_time
+
+
         if game_ender.is_game_ended(all_objects): # zombie got past bariers
             running = False
             died = True
@@ -94,6 +98,8 @@ def start_game():
 
         screen.fill("black")
         text_renderer.render_text(screen,"The zombies ate your brains!", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
+        text_renderer.render_text(screen,"", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
+        
         print("incureable disease")
         
         pygame.display.flip()

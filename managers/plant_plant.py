@@ -49,6 +49,12 @@ def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: Sun
         return get_null_plant()
     sunwallet.amount_of_sun -= new_plant.cost
 
+    if not new_plant.is_null:
+        game_stats.plants_planted += 1
+        game_stats.add_plant_type(type)
+
+
+
     board.legal_moves[position["x"]][position["y"]] = False
     board.plants[position["x"]][position["y"]] = new_plant
 
