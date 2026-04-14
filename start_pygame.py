@@ -6,6 +6,7 @@ from managers import object_manager
 from managers import input_manager
 from managers import sun_manager
 from managers import text_renderer
+from managers import game_ender
 from classes import game_object_class
 
 
@@ -26,10 +27,9 @@ def start_game():
     all_objects: list[game_object_class.GameObject] = []
     board: planter.Board = planter.Board(8, 4)
     
-    is_first_frame: bool = True
 
 
-    while running:
+    while running: #main loop
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
@@ -40,26 +40,6 @@ def start_game():
         screen.fill("purple")
 
         render_background(screen, background_image)
-
-        if is_first_frame:
-            # all_objects.append(planter.plant_plant({"x":1,"y":1}, "peashooter", board))
-            # all_objects.append(planter.plant_plant({"x":1,"y":2}, "peashooter", board))
-            # all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
-            # all_objects.append(planter.plant_plant({"x":1,"y":3}, "repeater", board))
-            planter.remove_plant({"x":1,"y":3}, board)
-            planter.remove_plant({"x":5,"y":2}, board)
-            
-            # new_zombies: list = []
-            # new_zombies.append(zombie_spawner.spwn_zombie(0, "basic"))
-            # new_zombies.append(zombie_spawner.spwn_zombie(1, "basic"))
-            # new_zombies.append(zombie_spawner.spwn_zombie(2, "conehead"))
-            # new_zombies.append(zombie_spawner.spwn_zombie(3, "conehead"))
-            # new_zombies.append(zombie_spawner.spwn_zombie(4, "basic"))
-            # new_zombies.append(zombie_spawner.spwn_zombie(5, "basic"))
-
-            # for new_zombie_object_list in new_zombies:
-            #     for new_zombie_object in new_zombie_object_list:
-            #         all_objects.append(new_zombie_object)
 
         
         all_objects.append( planter.handle_planting(board, input_manager.handle_input(screen), sunwallet))
@@ -83,6 +63,11 @@ def start_game():
         #removes all null instances from all objects
         all_objects = object_manager.remove_null_instances(all_objects, board)
 
+        
+        if game_ender.is_game_ended(all_objects): # zombie got past bariers
+            running = False
+            break
+
 
         # flip() the display to put your work on screen
         pygame.display.flip()
@@ -94,7 +79,6 @@ def start_game():
 
         elapsed_time += dt
 
-        is_first_frame = False
 
 
     pygame.quit()

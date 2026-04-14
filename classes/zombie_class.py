@@ -34,7 +34,7 @@ class Zombie(RenderableObject):
         if not self.is_eating:
             self.pos = {"x": self.pos["x"] - 100 * delta_time, "y": self.pos["y"]}
         
-        if self.pos["x"] < -100:
+        if self.pos["x"] < -300:
             self.is_null = True
     
     def draw(self: Zombie, screen, use_given_trans_dict: bool = False, given_trans_dict: dict = {}):
