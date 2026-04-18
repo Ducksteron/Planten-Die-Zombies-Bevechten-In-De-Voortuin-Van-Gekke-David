@@ -1,5 +1,6 @@
 from managers import render_image_wrapper as renderer
 from managers.sun_manager import SunWallet
+from managers import logger
 from classes.game_stats import GameStats
 from classes import plant_class
 
@@ -14,7 +15,7 @@ def handle_planting(board: Board, input_dict:dict, sunwallet: SunWallet, game_st
     if input_dict["event"] == "plant":
         return plant_plant(pos, input_dict["type"], board, sunwallet, game_stats)
     elif input_dict["event"] == "remove":
-        remove_plant(pos, board)
+        remove_plant(pos, board, game_stats)
     
 
     return new_plant
@@ -52,6 +53,7 @@ def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: Sun
     if not new_plant.is_null:
         game_stats.plants_planted += 1
         game_stats.add_plant_type(type)
+        logger.log_action("planted plant", game_stats.name)
 
 
 
@@ -60,7 +62,7 @@ def plant_plant(position: dict[str,int], type: str, board: Board, sunwallet: Sun
 
     return new_plant
 
-def remove_plant(position: dict[str,int], board: Board) -> None:
+def remove_plant(position: dict[str,int], board: Board, game_stats: GameStats) -> None:
     if not is_in_range(position):
         print("plant_plant.py: trying to remove plant is out of range! returning.")
         return
@@ -74,6 +76,8 @@ def remove_plant(position: dict[str,int], board: Board) -> None:
 
     board.legal_moves[position["x"]][position["y"]] = True
     board.plants[position["x"]][position["y"]] = None
+
+    logger.log_action("removed plant", game_stats.name)
     
 
 

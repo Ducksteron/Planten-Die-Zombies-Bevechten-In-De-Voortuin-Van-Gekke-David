@@ -10,6 +10,8 @@ from managers import game_ender
 from managers import sql_wrapper
 from managers import write_box
 from managers import final_stats_displayer
+from managers import logger
+from managers import log_printer
 from classes import game_object_class
 from classes.game_stats import GameStats
 
@@ -17,6 +19,7 @@ from classes.game_stats import GameStats
 def main():
     # pygame setup
     pygame.init()
+    
     
     background_image = pygame.image.load("images/backgrounds/cropped frontyard.png")
     screen = pygame.display.set_mode((843, 600))
@@ -26,6 +29,8 @@ def main():
     running: bool = True
     died: bool = False
     dt: float = 0
+    name_string: str = ""
+    logged_start: bool = False
 
     sunwallet: sun_manager.SunWallet = sun_manager.SunWallet()
     elapsed_time: float = 0.0
@@ -38,12 +43,22 @@ def main():
     while running: #main loop
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
-        for event in pygame.event.get():
+        input_events = pygame.event.get()
+        for event in input_events:
             if event.type == pygame.QUIT:
                 running = False
 
         # fill the screen with a color to wipe away anything from last frame
-        screen.fill("purple")
+        screen.fill("black")
+
+        if game_stats.name == "":
+            name_string = get_name(name_string,input_events,game_stats,loaded_font,screen)
+            pygame.display.flip()
+            continue
+        elif not logged_start:
+            logger.log_action("start", game_stats.name)
+            logged_start = True
+
 
         render_background(screen, background_image)
 
@@ -95,7 +110,6 @@ def main():
     
 
 
-    name_string: str = ""
     player_id:int = -1
     game_id:int = -1
 
@@ -110,23 +124,30 @@ def main():
 
         screen.fill("black")
         text_renderer.render_text(screen,"The zombies ate your brains!", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
-        name_string = write_box.handle_writing("Your name = ", name_string, input_events, game_stats)
-        text_renderer.render_text(screen,name_string, loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
-        if game_stats.name != "":
-            if game_id == -1:
-                new_game_ids = sql_wrapper.insert_stats(game_stats)
-                player_id = new_game_ids["player id"]
-                game_id = new_game_ids["game id"]
+        
+        if game_stats.name != "" and game_id == -1:
+            new_game_ids = sql_wrapper.insert_stats(game_stats)
+            player_id = new_game_ids["player id"]
+            game_id = new_game_ids["game id"]
             
-            game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
-            final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict)
+        game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
+        final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict)
+
+        log_printer.handle_log_printing(input_events)
 
 
         pygame.display.flip()
         dt = clock.tick(10) / 1000
 
+
+    logger.log_action("end", game_stats.name)
     pygame.quit()
 
+
+def get_name(name_string, input_events, game_stats, loaded_font, screen) -> str:
+    name_string = write_box.handle_writing("Your name = ", name_string, input_events, game_stats)
+    text_renderer.render_text(screen,name_string, loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
+    return name_string
 
 def render_background(screen, background_image):
     renderer.render(screen,background_image, {"x":0,"y":0})
