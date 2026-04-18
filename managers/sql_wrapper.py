@@ -155,7 +155,6 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
         return_dict["favorite plant"] = get_favorite_type(cursor, plant_types_query, plant_query, "no plants planted!")
 
 
-        print(return_dict)
         return return_dict
 
 def get_favorite_type(cursor, type_query: str, member_query: str, error_message: str) -> str:

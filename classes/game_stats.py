@@ -1,6 +1,6 @@
 
 class GameStats():
-    name: str = "|nullname|"
+    name: str = ""
 
     plants_eaten: int = 0 
     plants_planted: int = 0

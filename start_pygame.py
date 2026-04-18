@@ -8,6 +8,8 @@ from managers import sun_manager
 from managers import text_renderer
 from managers import game_ender
 from managers import sql_wrapper
+from managers import write_box
+from managers import final_stats_displayer
 from classes import game_object_class
 from classes.game_stats import GameStats
 
@@ -90,36 +92,38 @@ def start_game():
 
     all_objects = []
 
-    new_game_ids = sql_wrapper.insert_stats(game_stats)
-    player_id = new_game_ids["player id"]
-    game_id = new_game_ids["game id"]
-    game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
+    
 
-    return_dict = {}
-    return_dict["collected sun"]
-    return_dict["survived time"]
-    return_dict["plants eaten"]
-    return_dict["zombies_killed"]
-    return_dict["favorite zombie"]
-    return_dict["favorite plant"]
+
+    name_string: str = ""
+    player_id:int = -1
+    game_id:int = -1
 
     displaying_end_screen: bool = True
     while displaying_end_screen:
+        input_events = pygame.event.get()
         if not died:
             break
-        for event in pygame.event.get():
+        for event in input_events:
             if event.type == pygame.QUIT:
                 displaying_end_screen = False
 
         screen.fill("black")
         text_renderer.render_text(screen,"The zombies ate your brains!", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
-        text_renderer.render_text(screen,"", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
-        text_renderer.render_text(screen, ("Sun collected = "+ str(game_data_dict["collected sun"])), loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
-        text_renderer.render_text(screen, ("Sun collected = "+ str(game_data_dict["collected sun"])), loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
+        name_string = write_box.handle_writing("Your name = ", name_string, input_events, game_stats)
+        text_renderer.render_text(screen,name_string, loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
+        if game_stats.name != "":
+            if game_id == -1:
+                new_game_ids = sql_wrapper.insert_stats(game_stats)
+                player_id = new_game_ids["player id"]
+                game_id = new_game_ids["game id"]
+            
+            game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
+            final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict)
 
-        
+
         pygame.display.flip()
-        dt = clock.tick(120) / 1000
+        dt = clock.tick(10) / 1000
 
     pygame.quit()
 
