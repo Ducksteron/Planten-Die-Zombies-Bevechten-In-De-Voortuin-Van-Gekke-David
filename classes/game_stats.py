@@ -1,10 +1,13 @@
 
 class GameStats():
+    name: str = "|nullname|"
+
     plants_eaten: int = 0 
     plants_planted: int = 0
     plant_planted_types: dict[str,int] = {}
 
     zombies_killed: int = 0
+    killed_zombie_types: dict[str,int] = {}
 
     time_survived: float = 0.0
 
@@ -15,3 +18,10 @@ class GameStats():
             self.plant_planted_types[type] = 1
         else:
             self.plant_planted_types[type] += 1
+    
+    def add_zombie_type(self: GameStats, type: str):
+        if not type in self.killed_zombie_types:
+            self.killed_zombie_types[type] = 1
+        else:
+            self.killed_zombie_types[type] += 1
+

@@ -7,6 +7,7 @@ from managers import input_manager
 from managers import sun_manager
 from managers import text_renderer
 from managers import game_ender
+from managers import sql_wrapper
 from classes import game_object_class
 from classes.game_stats import GameStats
 
@@ -89,18 +90,33 @@ def start_game():
 
     all_objects = []
 
+    new_game_ids = sql_wrapper.insert_stats(game_stats)
+    player_id = new_game_ids["player id"]
+    game_id = new_game_ids["game id"]
+    game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
 
+    return_dict = {}
+    return_dict["collected sun"]
+    return_dict["survived time"]
+    return_dict["plants eaten"]
+    return_dict["zombies_killed"]
+    return_dict["favorite zombie"]
+    return_dict["favorite plant"]
 
     displaying_end_screen: bool = True
     while displaying_end_screen:
         if not died:
             break
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                displaying_end_screen = False
 
         screen.fill("black")
         text_renderer.render_text(screen,"The zombies ate your brains!", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
         text_renderer.render_text(screen,"", loaded_font, {"x": 100, "y": 100}, pygame.Color(255,255,255,255))
-        
-        print("incureable disease")
+        text_renderer.render_text(screen, ("Sun collected = "+ str(game_data_dict["collected sun"])), loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
+        text_renderer.render_text(screen, ("Sun collected = "+ str(game_data_dict["collected sun"])), loaded_font, {"x": 100, "y": 150}, pygame.Color(255,255,255,255))
+
         
         pygame.display.flip()
         dt = clock.tick(120) / 1000
