@@ -2,12 +2,6 @@ import psycopg2 as psycopg
 from classes.game_stats import GameStats
 
 
-
-def main_proxy():
-    get_stats_from_db(1,1)
-    # insert_stats(gen_test_game_stats())
-
-
 def insert_stats(game_stats: GameStats) -> dict[str,int]:
     
     with get_connection() as connection:
