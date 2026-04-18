@@ -31,6 +31,8 @@ def main():
     dt: float = 0
     name_string: str = ""
     logged_start: bool = False
+    player_id:int = -1
+    game_id:int = -1
 
     sunwallet: sun_manager.SunWallet = sun_manager.SunWallet()
     elapsed_time: float = 0.0
@@ -108,11 +110,6 @@ def main():
     all_objects = []
 
     
-
-
-    player_id:int = -1
-    game_id:int = -1
-
     displaying_end_screen: bool = True
     while displaying_end_screen:
         input_events = pygame.event.get()
