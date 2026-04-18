@@ -20,7 +20,7 @@ def get_writen_text(new_text:str,input_events:list, game_stats: GameStats) -> st
                 return_string = return_string[:-1]
 
             elif event.key == pygame.K_RETURN and return_string != "":
-                game_stats.name = return_string
+                game_stats.set_name(return_string)
 
             # Unicode standard is used for string
             # formation

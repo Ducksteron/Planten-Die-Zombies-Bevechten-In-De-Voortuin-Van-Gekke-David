@@ -24,4 +24,7 @@ class GameStats():
             self.killed_zombie_types[type] = 1
         else:
             self.killed_zombie_types[type] += 1
+    
+    def set_name(self: GameStats, new_name: str):
+        self.name = new_name.replace("'", "''")
 
