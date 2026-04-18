@@ -55,6 +55,7 @@ def main():
 
         if game_stats.name == "":
             name_string = get_name(name_string,input_events,game_stats,loaded_font,screen)
+            dt = clock.tick(120) / 1000
             pygame.display.flip()
             continue
         elif not logged_start:
