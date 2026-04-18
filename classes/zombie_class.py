@@ -24,6 +24,7 @@ class Zombie(RenderableObject):
     damage_per_second: int
     child_plant_detector: PlantDetector
     waited_time:float = 0.0
+    speed:float = 50.0
 
     def get_child_plant_detector(self: Zombie) -> PlantDetector:
         self.child_plant_detector = PlantDetector("images/misc/german_horse.png", self.pos, self)
@@ -35,7 +36,7 @@ class Zombie(RenderableObject):
         super().process(delta_time)
 
         if not self.is_eating:
-            self.pos = {"x": self.pos["x"] - 100 * delta_time, "y": self.pos["y"]}
+            self.pos = {"x": self.pos["x"] - self.speed * delta_time, "y": self.pos["y"]}
         
         if self.pos["x"] < -300:
             self.is_null = True
@@ -112,6 +113,7 @@ class BasicZombie(Zombie):
         super().__init__("images/zombies/zombie.png", pos,game_stats, max_health = self.max_health)
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.05)
+        self.speed = 50
 
 
 class Conehead(Zombie):
@@ -120,3 +122,4 @@ class Conehead(Zombie):
         super().__init__("images/zombies/conehead.webp", pos,game_stats, max_health = self.max_health)
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.2)
+        self.speed = 50

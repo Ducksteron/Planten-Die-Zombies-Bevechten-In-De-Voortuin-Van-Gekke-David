@@ -25,14 +25,16 @@ CREATE TABLE zombie (
 	id SERIAL PRIMARY KEY,
 	type INTEGER,
 	game INTEGER,
-	CONSTRAINT fk_zombie_type FOREIGN KEY (type) REFERENCES zombie_type(id)
+	CONSTRAINT fk_zombie_type FOREIGN KEY (type) REFERENCES zombie_type(id),
+	CONSTRAINT fk_game FOREIGN KEY (game) REFERENCES game(id)
 );
 
 CREATE TABLE plant (
 	id SERIAL PRIMARY KEY,
 	type INTEGER,
 	game INTEGER,
-	CONSTRAINT fk_plant_type FOREIGN KEY (type) REFERENCES plant_type(id)
+	CONSTRAINT fk_plant_type FOREIGN KEY (type) REFERENCES plant_type(id),
+	CONSTRAINT fk_game FOREIGN KEY (game) REFERENCES game(id)
 );
 
 

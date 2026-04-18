@@ -1,7 +1,6 @@
 
 def increase_sun(delta_time:float, sunwallet: SunWallet):
-    print(delta_time)
-    sun_per_second:float = 50.0
+    sun_per_second:float = 15.0
     sunwallet.amount_of_sun += delta_time * sun_per_second
     sunwallet.total_sun_gotten += delta_time * sun_per_second
 

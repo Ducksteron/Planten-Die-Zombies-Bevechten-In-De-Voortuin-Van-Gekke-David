@@ -3,7 +3,7 @@ from classes import renderable_object_class
 from classes.game_object_class import GameObject
 
 class Projectile(renderable_object_class.RenderableObject):
-    damage: int = 50
+    damage: int = 30
 
     def __init__(self: Projectile, image_path: str, pos:dict[str,int]) -> None:
         super().__init__(image_path, pos)
