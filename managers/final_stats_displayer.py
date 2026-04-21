@@ -2,12 +2,12 @@ import pygame
 from managers import text_renderer
 
 def show_final_stats(screen: pygame.Surface, loaded_font: pygame.Font, data_dict: dict) -> None:
-    text_start = {"x": 100, "y": 200}
+    text_start = {"x": 100, "y": 150}
     text_offset = 50
-
     displayed_text_array: list[str] = [
+        ("high score = " +  str(data_dict["high score"])),
+        ("survived time (score) = " + str(data_dict["survived time"])),
         ("collected sun = " +  str(data_dict["collected sun"])),
-        ("survived time = " + str(data_dict["survived time"])),
         ("plants eaten = " + str(data_dict["plants eaten"])),
         ("zombies killed = " + str(data_dict["zombies_killed"])),
         ("most killed zombie = " + str(data_dict["favorite zombie"])),

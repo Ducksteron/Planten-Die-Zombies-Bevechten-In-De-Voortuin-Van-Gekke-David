@@ -141,6 +141,17 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
                 plant_type.name
             ORDER BY
                 COUNT(plant_type.name) DESC
+            LIMIT 1),
+
+            (SELECT 
+                game.survived_time AS "high score"
+            FROM
+                game 
+                INNER JOIN player ON player.id = game.id
+            WHERE
+                player.id = {player_id}
+            ORDER BY
+                game.survived_time DESC
             LIMIT 1)
             
         FROM 
@@ -158,6 +169,7 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
         return_dict["zombies_killed"] = cursor_results[0][3]
         return_dict["favorite zombie"] = cursor_results[0][4]
         return_dict["favorite plant"] = cursor_results[0][5]
+        return_dict["high score"] = cursor_results[0][6]
 
         return return_dict
 
@@ -179,16 +191,16 @@ def get_connection():
 def gen_test_game_stats() -> GameStats:
     new_game_stats = GameStats()
     
-    new_game_stats.name = "READ_TEST_V1"
+    new_game_stats.name = "xX_N00BSL4YER_Xx"
 
-    new_game_stats.plants_eaten = 67 
-    new_game_stats.plants_planted = 67
+    new_game_stats.plants_eaten = 78
+    new_game_stats.plants_planted = 57
     new_game_stats.plant_planted_types = {"peashooter": 20, "repeater": 10}
 
-    new_game_stats.zombies_killed = 30
+    new_game_stats.zombies_killed = 1
     new_game_stats.killed_zombie_types = {"basic": 10, "conehead": 20}
 
-    new_game_stats.time_survived = 8000000000
+    new_game_stats.time_survived = 3489
 
     new_game_stats.sun_collected = 2
 
@@ -196,5 +208,5 @@ def gen_test_game_stats() -> GameStats:
     return new_game_stats
 
 def insert_buncha_stuff() -> None:
-     for i in range(20):
+     for i in range(1):
           insert_stats(gen_test_game_stats())
