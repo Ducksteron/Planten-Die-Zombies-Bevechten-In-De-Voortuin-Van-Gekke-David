@@ -7,7 +7,6 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
     with get_connection() as connection:
         with connection.cursor() as cursor:
             
-            
             #create player if neccecary
             name_test_query = f"""
             SELECT id
@@ -42,17 +41,6 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
 
             cursor.execute(game_gen_query)
             game_id = cursor.fetchall()[0][0]
-
-
-            
-
-            #insert into player_game
-            # game_player_query = f"""
-            #     INSERT INTO player_game (player_id, game_id)
-            #     VALUES ({player_id}, {game_id});
-            #     """
-            
-            # cursor.execute(game_player_query)
 
 
             
@@ -95,19 +83,6 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
                         cursor.execute(plant_query)
         
         return {"player id": player_id, "game id": game_id}
-
-def get_stats_from_db_from_name(player_name: str, game_id: int) -> dict:
-    with get_connection() as connection:
-        with connection.cursor() as cursor:
-            cursor = connection.cursor()
-            name_id_query = f"""
-            SELECT id
-            FROM player
-            WHERE name = '({player_name})';
-            """
-            cursor.execute(name_id_query)
-            name_id = cursor.fetchall()[0][0]
-            return get_stats_from_db(name_id, game_id)
 
 def get_stats_from_db(player_id: int, game_id:int) -> dict:
     with get_connection() as connection:
@@ -172,14 +147,6 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
             return_dict["high score"] = cursor_results[0][6]
 
             return return_dict
-
-
-def tuple_list_to_list(tuple_list) -> list:
-    return_list: list = []
-    for tuple in tuple_list:
-            return_list.append(tuple[0])
-    return return_list
-
 
 def get_connection():
     return psycopg.connect(
