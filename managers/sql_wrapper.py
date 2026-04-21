@@ -144,16 +144,15 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
                     COUNT(plant_type.name) DESC
                 LIMIT 1),
 
-                (SELECT 
+                CAST((SELECT DISTINCT ON (player.name) 
                     game.survived_time AS "high score"
                 FROM
                     game 
-                    INNER JOIN player ON player.id = game.id
-                WHERE
+                    INNER JOIN player ON player.id = game.player
+                WHERE 
                     player.id = {player_id}
-                ORDER BY
-                    game.survived_time DESC
-                LIMIT 1)
+                ORDER BY 
+                    "name", "high score" DESC) AS BIGINT)
                 
             FROM 
                 game
