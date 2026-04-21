@@ -130,7 +130,7 @@ def main():
             game_id = new_game_ids["game id"]
             
         game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
-        is_displaying_leaderboard = final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict, input_events, is_displaying_leaderboard, sql_wrapper.get_leaderboard(5))
+        is_displaying_leaderboard = final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict, input_events, is_displaying_leaderboard, sql_wrapper.get_leaderboard(5), sql_wrapper.get_position_in_LB(game_data_dict["high score"]))
 
         log_printer.handle_log_printing(input_events)
 

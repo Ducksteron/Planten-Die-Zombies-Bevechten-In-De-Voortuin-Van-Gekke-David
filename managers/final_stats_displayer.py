@@ -1,15 +1,13 @@
 import pygame
 from managers import text_renderer
 
-def show_final_stats(screen: pygame.Surface, loaded_font: pygame.Font, data_dict: dict, inputs: list, is_displaying_LB: bool, leaderboard: list[dict[str,int]]) -> bool:
+def show_final_stats(screen: pygame.Surface, loaded_font: pygame.Font, data_dict: dict, inputs: list, is_displaying_LB: bool, leaderboard: list[dict[str,int]], position_in_leaderboard:int) -> bool:
     text_start = {"x": 100, "y": 150}
     text_offset = 50
     
     for event in inputs:
-        print("1 ", event)
         if not event.type == pygame.KEYDOWN: continue
         if event.unicode == " ":
-            print("2 ", is_displaying_LB)
             is_displaying_LB = not is_displaying_LB
 
 
@@ -19,6 +17,8 @@ def show_final_stats(screen: pygame.Surface, loaded_font: pygame.Font, data_dict
         displayed_text_array = ["leaderboard"]
         for LB_entry in leaderboard:
             displayed_text_array.append(stringable_dict_to_str(LB_entry))
+        displayed_text_array.append("")
+        displayed_text_array.append(("Your position in leaderboard = " + str(position_in_leaderboard)))
     else:
         displayed_text_array  = [
             ("high score = " +  str(data_dict["high score"])),

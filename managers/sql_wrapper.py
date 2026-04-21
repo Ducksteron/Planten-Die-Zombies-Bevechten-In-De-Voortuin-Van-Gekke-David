@@ -178,6 +178,35 @@ def get_leaderboard(list_length:int = 3) -> list[dict[str,int]]:
 
     return return_leaderboard
 
+
+def get_position_in_LB(high_score:int) -> int:
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            position_in_LB:int = -1
+            leaderboard_position_get_query = f"""
+            SELECT 
+            	(COUNT(*) + 1) AS "position in leaderboard"
+            FROM 
+            	(SELECT DISTINCT ON (player.name) 
+            		player.name AS "name", 
+            		CAST(game.survived_time AS BIGINT) AS "high score" 
+            	FROM
+            		game 
+            		INNER JOIN player ON player.id = game.player
+            	ORDER BY 
+            	"name", "high score" DESC)
+            WHERE 
+            	"high score" > {high_score};
+            """
+
+            cursor.execute(leaderboard_position_get_query)
+            position_in_LB = cursor.fetchall()[0][0]
+
+    
+    return position_in_LB
+
+
+
 def get_connection():
     return psycopg.connect(
         dbname="pvz",
@@ -188,7 +217,7 @@ def get_connection():
 def gen_test_game_stats() -> GameStats:
     new_game_stats = GameStats()
     
-    new_game_stats.name = "xX_N00BSL4YER_Xx"
+    new_game_stats.name = "TestNite"
 
     new_game_stats.plants_eaten = 78
     new_game_stats.plants_planted = 57
@@ -197,7 +226,7 @@ def gen_test_game_stats() -> GameStats:
     new_game_stats.zombies_killed = 1
     new_game_stats.killed_zombie_types = {"basic": 10, "conehead": 20}
 
-    new_game_stats.time_survived = 3489
+    new_game_stats.time_survived = 34890
 
     new_game_stats.sun_collected = 2
 
