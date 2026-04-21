@@ -5,10 +5,12 @@ CREATE TABLE player(
 
 CREATE TABLE game(
 	id SERIAL PRIMARY KEY,
+	player INT,
 	collected_sun FLOAT,
 	survived_time FLOAT,
 	plants_eaten INT,
-	zombies_killed INT
+	zombies_killed INT,
+	CONSTRAINT fk_player FOREIGN KEY (player) REFERENCES player(id)
 );
 
 CREATE TABLE plant_type (
@@ -35,14 +37,6 @@ CREATE TABLE plant (
 	game INTEGER,
 	CONSTRAINT fk_plant_type FOREIGN KEY (type) REFERENCES plant_type(id),
 	CONSTRAINT fk_game FOREIGN KEY (game) REFERENCES game(id)
-);
-
-
-CREATE TABLE player_game (
-	player_id INT,
-	game_id INT,
-	CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES player(id),
-	CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(id)
 );
 
 

@@ -36,8 +36,8 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
 
         #create game
         game_gen_query = f"""
-            INSERT INTO game (collected_sun, survived_time, plants_eaten, zombies_killed)
-            VALUES ({game_stats.sun_collected}, {game_stats.time_survived}, {game_stats.plants_eaten}, {game_stats.zombies_killed})
+            INSERT INTO game (player, collected_sun, survived_time, plants_eaten, zombies_killed)
+            VALUES ({player_id},{game_stats.sun_collected}, {game_stats.time_survived}, {game_stats.plants_eaten}, {game_stats.zombies_killed})
             RETURNING id;"""
 
         cursor.execute(game_gen_query)
@@ -47,12 +47,12 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
         
 
         #insert into player_game
-        game_player_query = f"""
-            INSERT INTO player_game (player_id, game_id)
-            VALUES ({player_id}, {game_id});
-            """
+        # game_player_query = f"""
+        #     INSERT INTO player_game (player_id, game_id)
+        #     VALUES ({player_id}, {game_id});
+        #     """
         
-        cursor.execute(game_player_query)
+        # cursor.execute(game_player_query)
 
 
         
