@@ -109,6 +109,7 @@ def main():
 
 
     all_objects = []
+    is_displaying_leaderboard: bool = False
 
     
     displaying_end_screen: bool = True
@@ -129,9 +130,10 @@ def main():
             game_id = new_game_ids["game id"]
             
         game_data_dict = sql_wrapper.get_stats_from_db(player_id, game_id)
-        final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict)
+        is_displaying_leaderboard = final_stats_displayer.show_final_stats(screen, loaded_font, game_data_dict, input_events, is_displaying_leaderboard, sql_wrapper.get_leaderboard(5))
 
         log_printer.handle_log_printing(input_events)
+
 
 
         pygame.display.flip()

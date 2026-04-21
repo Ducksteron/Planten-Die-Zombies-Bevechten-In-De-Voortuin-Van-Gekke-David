@@ -148,6 +148,36 @@ def get_stats_from_db(player_id: int, game_id:int) -> dict:
 
             return return_dict
 
+def get_leaderboard(list_length:int = 3) -> list[dict[str,int]]:
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            return_leaderboard:list[dict[str,int]] = []
+            leaderboard_get_query = f"""
+            SELECT 
+                *
+            FROM 
+                (SELECT DISTINCT ON (player.name) 
+                    player.name AS "name", 
+                    CAST(game.survived_time AS BIGINT) AS "high score" 
+                FROM
+                    game 
+                    INNER JOIN player ON player.id = game.player
+                ORDER BY 
+                "name", "high score" DESC)
+            ORDER BY
+                "high score" DESC
+            LIMIT {list_length};
+            """
+
+            cursor.execute(leaderboard_get_query)
+            cursor_results = cursor.fetchall()
+            
+            for data_tuple_index in range(len(cursor_results)):
+                return_leaderboard.append({cursor_results[data_tuple_index][0]: cursor_results[data_tuple_index][1]})
+
+
+    return return_leaderboard
+
 def get_connection():
     return psycopg.connect(
         dbname="pvz",

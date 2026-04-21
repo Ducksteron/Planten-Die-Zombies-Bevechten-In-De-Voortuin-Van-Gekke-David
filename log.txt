@@ -280,3 +280,51 @@ User (test) did: start at: 2026-04-21 18:09:48
 
 User (test) did: end at: 2026-04-21 18:11:00
 
+User (Malk) did: start at: 2026-04-21 18:16:25
+
+User (Malk) did: end at: 2026-04-21 18:17:17
+
+User (malkington) did: start at: 2026-04-21 18:22:22
+
+User (malkington) did: end at: 2026-04-21 18:23:29
+
+User (Yippie) did: start at: 2026-04-21 18:25:05
+
+User (Yippie) did: end at: 2026-04-21 18:26:13
+
+User (Malkav) did: start at: 2026-04-21 18:38:44
+
+User (Malkav) did: end at: 2026-04-21 18:39:49
+
+User (Malkavian) did: start at: 2026-04-21 18:40:33
+
+User (Malkavian) did: end at: 2026-04-21 18:41:55
+
+User (n00b) did: start at: 2026-04-21 18:42:57
+
+User (n00b) did: end at: 2026-04-21 18:43:36
+
+User (ok) did: start at: 2026-04-21 18:45:10
+
+User (ok2) did: start at: 2026-04-21 18:46:28
+
+User (ok3) did: start at: 2026-04-21 18:48:03
+
+User (ok3) did: end at: 2026-04-21 18:48:50
+
+User (ok4) did: start at: 2026-04-21 18:49:36
+
+User (ok4) did: end at: 2026-04-21 18:50:22
+
+User (ok67) did: start at: 2026-04-21 18:51:44
+
+User (ok67) did: end at: 2026-04-21 18:52:17
+
+User (ok21) did: start at: 2026-04-21 18:53:10
+
+User (ok21) did: end at: 2026-04-21 18:53:50
+
+User (ok21) did: start at: 2026-04-21 18:54:15
+
+User (ok21) did: end at: 2026-04-21 18:56:25
+
