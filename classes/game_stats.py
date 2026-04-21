@@ -14,6 +14,8 @@ class GameStats():
     sun_collected: float = 0.0
 
     def add_plant_type(self: GameStats, type: str):
+        if type == "":
+            return
         if not type in self.plant_planted_types:
             self.plant_planted_types[type] = 1
         else:

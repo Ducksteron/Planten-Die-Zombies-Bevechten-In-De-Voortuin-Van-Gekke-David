@@ -25,6 +25,7 @@ class Zombie(RenderableObject):
     child_plant_detector: PlantDetector
     waited_time:float = 0.0
     speed:float = 50.0
+    zombie_type = ""
 
     def get_child_plant_detector(self: Zombie) -> PlantDetector:
         self.child_plant_detector = PlantDetector("images/misc/german_horse.png", self.pos, self)
@@ -50,6 +51,7 @@ class Zombie(RenderableObject):
             self.is_null = True
             self.child_plant_detector.is_null = True
             self.game_stats.zombies_killed += 1
+            self.game_stats.add_zombie_type(self.zombie_type)
     
     waited_time: float
     def handle_eating(self: Zombie, delta_time: float) -> None:
@@ -114,6 +116,7 @@ class BasicZombie(Zombie):
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.05)
         self.speed = 50
+        self.zombie_type = "basic"
 
 
 class Conehead(Zombie):
@@ -123,3 +126,4 @@ class Conehead(Zombie):
         self.damage_per_second = 50
         self.trans_dict = renderer.scale_by_trans_dict(self.trans_dict, 0.2)
         self.speed = 50
+        self.zombie_type = "conehead"

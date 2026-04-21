@@ -46,7 +46,6 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
             
             #insert into zombie_game
             #get id of type
-            zombie_type_ids: list[int] = []
             for zombie_type in game_stats.killed_zombie_types.keys():
                 zombie_type_id_query = f"""
                 SELECT id
@@ -61,9 +60,9 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
                     INSERT INTO zombie (type, game)
                     VALUES ({zombie_type_id}, {game_id});
                     """
-
                     cursor.execute(zombie_query)
                 
+
 
             for plant_type in game_stats.plant_planted_types.keys():
                     plant_type_id_query = f"""
@@ -71,6 +70,7 @@ def insert_stats(game_stats: GameStats) -> dict[str,int]:
                     FROM plant_type
                     WHERE name = '{plant_type}';
                     """
+                    print(plant_type_id_query)
                     cursor.execute(plant_type_id_query)
                     plant_type_id = cursor.fetchall()[0][0]
 

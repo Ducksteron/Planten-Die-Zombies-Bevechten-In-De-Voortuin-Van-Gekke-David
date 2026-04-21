@@ -5,13 +5,15 @@ from managers import object_manager
 from managers import render_image_wrapper as renderer
 
 class Plant(renderable_object_class.RenderableObject):
-    def __init__(self: Plant,image_path: str, pos:dict[str,int], game_stats : GameStats, max_health: int):
+    def __init__(self: Plant,image_path: str, pos:dict[str,int], game_stats : GameStats, max_health: int = 0, plant_type: str = ""):
         super().__init__(image_path, pos)
         self.collision_layer = 2
         self.show_col_box = False
         self.max_health = max_health
         self.current_health = max_health
         self.game_stats = game_stats
+        self.plant_type = plant_type
+        self.game_stats.add_plant_type(self.plant_type)
 
     firerate: float = 1#seconds per round
     cost: int = 0
@@ -21,6 +23,7 @@ class Plant(renderable_object_class.RenderableObject):
     projectile_image_path:str
     position: dict[str,int] = {}
     game_stats: GameStats
+    plant_type: str = ""
 
    
     def process(self: Plant, delta_time: float) -> None:
@@ -63,7 +66,7 @@ class Plant(renderable_object_class.RenderableObject):
     
 class Peashooter(Plant):
     def __init__(self: Peashooter,image_path: str, pos:dict[str,int], game_stats: GameStats):
-        super().__init__( "images/plants/peashooter.png", pos,game_stats, max_health=100)
+        super().__init__( "images/plants/peashooter.png", pos,game_stats, max_health=100, plant_type="peashooter")
         self.firerate = 1
         self.cost = 100
         self.current_health = self.max_health
@@ -71,6 +74,7 @@ class Peashooter(Plant):
         self.projectile_image_path= "images/projectiles/pea.png"
         # self.image_path = "images/plants/peashooter.png"
         self.trans_dict = renderer.scale_by_trans_dict({}, 0.166666666)
+        
 
         
         
@@ -78,7 +82,7 @@ class Peashooter(Plant):
 
 class Repeater(Plant):
     def __init__(self: Repeater,image_path: str, pos:dict[str,int], game_stats: GameStats):
-        super().__init__("images/plants/repeater.webp", pos,game_stats,  max_health=100)
+        super().__init__("images/plants/repeater.webp", pos,game_stats,  max_health=100, plant_type="reapeater")
         self.firerate = 0.5
         self.max_health = 100
         self.cost = 200
@@ -87,5 +91,6 @@ class Repeater(Plant):
         self.projectile_image_path= "images/projectiles/pea.png"
         # self.image_path = "images/plants/repeater.webp"
         self.trans_dict = renderer.scale_by_trans_dict({}, 0.0833333333333)
+        
 
         
